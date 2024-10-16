@@ -1,37 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mine2Mine App</title>
-    <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #000;
-            color: #fff;
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            text-align: center;
-        }
-        .coin {
-            width: 150px;
-            height: 150px;
-            background: url('coin.png') no-repeat center;
-            background-size: contain;
-            margin-bottom: 20px;
-        }
-    </style>
+    <title>واجهة مماثلة</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <div class="coin"></div>
-        <h1>Welcome to Mine2Mine App</h1>
-        <p>Start mining real tokens on virtual graphic cards by completing tasks!</p>
+        <div class="balance-section">
+            <img src="gpu-image.png" alt="GPU" class="gpu-image">
+            <h1>رصيدك</h1>
+            <h2>6,288.46 GPU</h2>
+            <div class="buttons">
+                <button onclick="location.href='deposit.html'">إيداع</button>
+                <button onclick="location.href='swap.html'">مبادلة/شراء</button>
+                <button onclick="location.href='withdraw.html'">سحب</button>
+            </div>
+        </div>
+
+        <div class="profit-section">
+            <p>الربح في الدقيقة: 5.65 GPU</p>
+            <p>نشط: <span class="booster-timer">11:20:48</span></p>
+        </div>
+
+        <div class="farm-section">
+            <p>مزرعتي: 10 GPU</p>
+            <p>5.25 GPU / دقيقة</p>
+        </div>
+
+        <div class="squad-section">
+            <p>الفريق: أبطال العرب</p>
+            <p>0.404630 GPU / دقيقة</p>
+        </div>
+
+        <div class="nav">
+            <button onclick="location.href='farm.html'">المزرعة</button>
+            <button onclick="location.href='squads.html'">الفرق</button>
+            <button onclick="location.href='play.html'">اللعب</button>
+            <button onclick="location.href='earn.html'">الربح</button>
+            <button onclick="location.href='top.html'">الأعلى</button>
+        </div>
     </div>
 </body>
 </html>
