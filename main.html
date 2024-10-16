@@ -1,62 +1,23 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تطبيق التعدين</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="container">
-        <div class="balance">
-            <h1>رصيدك</h1>
-            <p class="balance-amount">6,288.46 GPU</p>
-        </div>
-
-        <div class="actions">
-            <button onclick="window.location.href='deposit.html'">إيداع</button>
-            <button onclick="window.location.href='swap.html'">شراء/مبادلة</button>
-            <button onclick="window.location.href='withdraw.html'">سحب</button>
-        </div>
-
-        <div class="profit-info">
-            <p>الربح لكل دقيقة</p>
-            <p class="profit-amount">5.65 GPU</p>
-            <p>17.84 Gh/s 🚀 +30%</p>
-        </div>
-
-        <div class="booster">
-            <p>المعزز النشط</p>
-            <p class="booster-time">11:20:48</p>
-        </div>
-
-        <div class="farm-info">
-            <h2>مزرعتي: 10 وحدات GPU</h2>
-            <p>5.25 GPU/دقيقة</p>
-        </div>
-
-        <div class="squad-info">
-            <h2>الفرقة: أبطال العرب</h2>
-            <p>0.404630 GPU/دقيقة</p>
+                    الأصدقاء
+                </a>
+            </div>
+            <div class="nav-item" id="win">
+                <a href="win.html">
+                    <img src="win-icon.png" alt="1win">
+                    1win
+                </a>
+            </div>
         </div>
     </div>
 
-    <div class="navbar">
-        <div class="nav-item" onclick="window.location.href='farm.html'">
-            <p>مزرعة</p>
-        </div>
-        <div class="nav-item" onclick="window.location.href='squads.html'">
-            <p>الفرق</p>
-        </div>
-        <div class="nav-item" onclick="window.location.href='play.html'">
-            <p>لعب</p>
-        </div>
-        <div class="nav-item" onclick="window.location.href='earn.html'">
-            <p>اربح</p>
-        </div>
-        <div class="nav-item" onclick="window.location.href='top.html'">
-            <p>الأعلى</p>
+    <div id="overlay" class="overlay">
+        <div class="popup">
+            <h2>تهانينا!</h2>
+            <p>لقد ربحت <span id="earnedCoins"></span> عملة.</p>
+            <button id="closePopup">إغلاق</button>
         </div>
     </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
