@@ -1,76 +1,62 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>واجهة مماثلة</title>
+    <title>تطبيق التعدين</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <div class="balance-section">
-            <div class="gpu-image-container">
-                <img src="gpu-image.png" alt="GPU" class="gpu-image" id="userImage">
-            </div>
+        <div class="balance">
             <h1>رصيدك</h1>
-            <h2>6,288.46 GPU</h2>
-            <div class="buttons">
-                <button class="btn deposit" onclick="location.href='deposit.html'">إيداع</button>
-                <button class="btn swap" onclick="location.href='swap.html'">مبادلة/شراء</button>
-                <button class="btn withdraw" onclick="location.href='withdraw.html'">سحب</button>
-            </div>
+            <p class="balance-amount">6,288.46 GPU</p>
         </div>
 
-        <div class="profit-section">
-            <p>الربح في الدقيقة: <span class="highlight">5.65 GPU</span></p>
-            <p>نشط: <span class="highlight">11:20:48</span></p>
+        <div class="actions">
+            <button onclick="window.location.href='deposit.html'">إيداع</button>
+            <button onclick="window.location.href='swap.html'">شراء/مبادلة</button>
+            <button onclick="window.location.href='withdraw.html'">سحب</button>
         </div>
 
-        <div class="farm-section">
-            <p>مزرعتي: <span class="highlight">10 GPU</span></p>
-            <p><span class="highlight">5.25 GPU / دقيقة</span></p>
+        <div class="profit-info">
+            <p>الربح لكل دقيقة</p>
+            <p class="profit-amount">5.65 GPU</p>
+            <p>17.84 Gh/s 🚀 +30%</p>
         </div>
 
-        <div class="squad-section">
-            <p>الفريق: <span class="highlight">أبطال العرب</span></p>
-            <p><span class="highlight">0.404630 GPU / دقيقة</span></p>
+        <div class="booster">
+            <p>المعزز النشط</p>
+            <p class="booster-time">11:20:48</p>
         </div>
 
-        <!-- تحميل الصورة الخاصة بالمستخدم -->
-        <div class="upload-section">
-            <label for="imageUpload" class="upload-btn">تحميل صورتك</label>
-            <input type="file" id="imageUpload" accept="image/*" style="display:none;" onchange="loadImage(event)">
+        <div class="farm-info">
+            <h2>مزرعتي: 10 وحدات GPU</h2>
+            <p>5.25 GPU/دقيقة</p>
         </div>
 
-        <div class="nav">
-            <button class="nav-btn" onclick="location.href='farm.html'">
-                <img src="farm-icon.png" alt="Farm" class="nav-icon">المزرعة
-            </button>
-            <button class="nav-btn" onclick="location.href='squads.html'">
-                <img src="squad-icon.png" alt="Squads" class="nav-icon">الفرق
-            </button>
-            <button class="nav-btn" onclick="location.href='play.html'">
-                <img src="play-icon.png" alt="Play" class="nav-icon">اللعب
-            </button>
-            <button class="nav-btn" onclick="location.href='earn.html'">
-                <img src="earn-icon.png" alt="Earn" class="nav-icon">الربح
-            </button>
-            <button class="nav-btn" onclick="location.href='top.html'">
-                <img src="top-icon.png" alt="Top" class="nav-icon">الأعلى
-            </button>
+        <div class="squad-info">
+            <h2>الفرقة: أبطال العرب</h2>
+            <p>0.404630 GPU/دقيقة</p>
         </div>
     </div>
 
-    <script>
-        // دالة لتحديث الصورة الدائرية بناءً على اختيار المستخدم
-        function loadImage(event) {
-            const userImage = document.getElementById('userImage');
-            const reader = new FileReader();
-            reader.onload = function() {
-                userImage.src = reader.result;
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
-    </script>
+    <div class="navbar">
+        <div class="nav-item" onclick="window.location.href='farm.html'">
+            <p>مزرعة</p>
+        </div>
+        <div class="nav-item" onclick="window.location.href='squads.html'">
+            <p>الفرق</p>
+        </div>
+        <div class="nav-item" onclick="window.location.href='play.html'">
+            <p>لعب</p>
+        </div>
+        <div class="nav-item" onclick="window.location.href='earn.html'">
+            <p>اربح</p>
+        </div>
+        <div class="nav-item" onclick="window.location.href='top.html'">
+            <p>الأعلى</p>
+        </div>
+    </div>
 </body>
 </html>
