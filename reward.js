@@ -5,11 +5,11 @@ let earnedPoints = 0;
 // حساب الزمن منذ آخر زيارة
 function checkTime() {
     let currentTime = new Date().getTime();
-    let timeDifference = Math.floor((currentTime - lastVisitTime) / (1000 * 60)); // الفرق بالدقائق
+    let timeDifference = Math.floor((currentTime - lastVisitTime) / (10 * 1)); // الفرق بالدقائق
 
     // حساب النقاط بناءً على المدة الزمنية
-    if (timeDifference >= 1) {
-        earnedPoints = timeDifference * 10; // 10 نقاط لكل دقيقة
+    if (timeDifference >= 1000) {
+        earnedPoints = timeDifference * 100; // 10 نقاط لكل دقيقة
         if (timeDifference > 180) { // 3 ساعات
             earnedPoints = 180 * 10; // الحد الأقصى 1800 نقطة
         }
