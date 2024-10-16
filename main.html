@@ -35,10 +35,17 @@
         </div>
 
         <!-- مربع المهام قابل للضغط للانتقال إلى صفحة أخرى -->
-        <div class="tasks" id="tasks">
-            <span>المهام</span>
-            <div class="task-count">18</div>
-        </div>
+<div class="tasks" id="tasks" onclick="navigateToPage()">
+    <span>المهام</span>
+    <div class="task-count">18</div>
+</div>
+
+<script>
+    function navigateToPage() {
+        // الانتقال إلى الصفحة المطلوبة عند الضغط
+        window.location.href = "page-link.html";  // ضع رابط الصفحة هنا
+    }
+</script>
 
         <!-- الأقسام السفلية -->
         <div class="bottom-nav">
