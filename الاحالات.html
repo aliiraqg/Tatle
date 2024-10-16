@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دعوة صديق - نظام إحالة</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #222;
+            color: white;
+            text-align: center;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 10px;
+        }
+
+        .invite-box {
+            background-color: #444;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .invite-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .invite-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .points {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+
+        .referral-link {
+            margin-top: 20px;
+            background-color: #555;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .share-btn {
+            background-color: #34af23;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .share-btn:hover {
+            background-color: #2a8d1a;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>نظام إحالة</h1>
+        <div class="invite-box">
+            <h2>احصل على 20% من دخل أصدقائك</h2>
+            <button class="invite-btn" onclick="showReferralLink()">دعوة صديق</button>
+            <div class="points">
+                <p>النقاط المكتسبة: <span id="points">0</span></p>
+                <p>عدد الأصدقاء المدعوين: <span id="friendCount">0</span></p>
+            </div>
+            <div id="referralLink" class="referral-link"></div>
+            <button id="shareBtn" class="share-btn" onclick="shareOnTelegram()">مشاركة على تليغرام</button>
+        </div>
+    </div>
+
+    <script>
+        let points = 0;
+        let friendCount = 0;
+        let userId = 12345; // معرف المستخدم، يتم تغييره بناءً على تسجيل دخول المستخدم
+        let botUsername = 'YourTelegramBot'; // اسم بوت التليغرام الخاص بك
+
+        // توليد رابط إحالة فريد لكل مستخدم
+        function showReferralLink() {
+            const referralLink = `https://t.me/${Ndjshshshdhdhfbot}?start=${userId}`;
+            document.getElementById('referralLink').innerText = `رابط الإحالة الخاص بك: ${referralLink}`;
+            document.getElementById('referralLink').style.display = 'block';
+            document.getElementById('shareBtn').style.display = 'inline-block';
+        }
+
+        // مشاركة رابط الإحالة على تليغرام
+        function shareOnTelegram() {
+            const referralLink = `https://t.me/${Ndjshshshdhdhfbot}?start=${userId}`;
+            const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=سجل واحصل على مكافأة من خلال رابط الإحالة الخاص بي!`;
+            window.open(telegramUrl, '_blank');
+        }
+
+    </script>
+
+</body>
+</html>
