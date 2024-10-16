@@ -93,11 +93,11 @@
         let points = 0;
         let friendCount = 0;
         let userId = 12345; // معرف المستخدم، يتم تغييره بناءً على تسجيل دخول المستخدم
-        let botUsername = 'YourTelegramBot'; // اسم بوت التليغرام الخاص بك
+        let botUsername = 'Ndjshshshdhdhfbot'; // اسم بوت التليغرام الخاص بك
 
         // توليد رابط إحالة فريد لكل مستخدم
         function showReferralLink() {
-            const referralLink = `https://t.me/${Ndjshshshdhdhfbot}?start=${userId}`;
+            const referralLink = `https://t.me/${botUsername}?start=${userId}`;
             document.getElementById('referralLink').innerText = `رابط الإحالة الخاص بك: ${referralLink}`;
             document.getElementById('referralLink').style.display = 'block';
             document.getElementById('shareBtn').style.display = 'inline-block';
@@ -105,7 +105,7 @@
 
         // مشاركة رابط الإحالة على تليغرام
         function shareOnTelegram() {
-            const referralLink = `https://t.me/${Ndjshshshdhdhfbot}?start=${userId}`;
+            const referralLink = `https://t.me/${botUsername}?start=${userId}`;
             const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=سجل واحصل على مكافأة من خلال رابط الإحالة الخاص بي!`;
             window.open(telegramUrl, '_blank');
         }
