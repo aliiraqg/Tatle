@@ -1,0 +1,127 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #222;
+    border-bottom: 2px solid #f0a500;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    width: 30px;
+    margin-right: 10px;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+}
+
+.profile p {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.profile button {
+    background-color: #f0a500;
+    border: none;
+    padding: 5px 10px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.content {
+    padding: 20px;
+}
+
+.card {
+    background-color: #333;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.card:hover {
+    background-color: #444;
+}
+
+.card h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.card button {
+    background-color: #f0a500;
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.card small {
+    display: block;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #ccc;
+}
+
+/* تصميم شريط التنقل */
+.navbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #222;
+    display: flex;
+    justify-content: space-around;
+    padding: 15px 0;
+    border-top: 2px solid #f0a500;
+}
+
+.nav-item {
+    text-align: center;
+    cursor: pointer;
+    padding: 10px;
+    background-color: #333;
+    border-radius: 10px;
+    width: 80px;
+    margin: 0 5px; /* تباعد بين العناصر */
+    transition: background-color 0.3s ease;
+}
+
+.nav-item p {
+    font-size: 14px;
+}
+
+.nav-item:hover {
+    background-color: #f0a500;
+    color: #fff;
+}
