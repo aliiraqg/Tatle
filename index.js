@@ -2,18 +2,17 @@ const { MongoClient } = require('mongodb');
 const express = require('express');
 const TelegramBot = require('node-telegram-bot-api');
 
-// توكن البوت (استبدل التوكن بالتوكن الذي قدمته)
+// توكن البوت
 const token = '7891399266:AAEDdHQbEzH42ZAZqxzgrnSnGdU2Lr1L0BI';  
 const bot = new TelegramBot(token, { polling: true });
 
-// إعداد خادم Express
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 let db;
 let usersCollection;
 
-// رابط MongoDB (تم تعديله)
+// رابط MongoDB
 const MONGO_URI = 'mongodb+srv://alifakarr:Aliliwaa00@ali.wweyt.mongodb.net/?retryWrites=true&w=majority&appName=Ali';
 
 // الاتصال بقاعدة البيانات
@@ -31,44 +30,35 @@ async function connectDB() {
 
 connectDB();
 
-// استقبال أوامر البوت
-bot.onText(/\/start/, async (msg) => {
-    const chatId = msg.chat.id;
+// استقبال البيانات من واجهة الويب عبر Telegram WebAppData
+bot.on('web_app_data', async (msg) => {
     const userId = msg.from.id;
+    const data = JSON.parse(msg.web_app_data.data);
+
+    if (!usersCollection) {
+        console.error('usersCollection غير مهيأ بعد');
+        return;
+    }
 
     try {
-        // التحقق من الاتصال بقاعدة البيانات قبل متابعة العملية
-        if (!usersCollection) {
-            console.error('usersCollection غير مهيأ بعد');
-            bot.sendMessage(chatId, 'حدث خطأ: لا يمكن الاتصال بقاعدة البيانات.');
-            return;
-        }
-
-        // البحث عن المستخدم في قاعدة البيانات
-        let user = await usersCollection.findOne({ userId: userId });
-
-        if (!user) {
-            // إذا لم يكن المستخدم موجودًا، قم بإنشاء مستخدم جديد
-            await usersCollection.insertOne({ userId: userId, points: 0 });
-            user = { points: 0 };
-        }
-
-        // إرسال رسالة الترحيب مع النقاط الحالية
-        bot.sendMessage(chatId, `مرحبًا! لديك ${user.points} نقاط.`, {
-            reply_markup: {
-                inline_keyboard: [
-                    [
-                        {
-                            text: 'افتح التطبيق',
-                            web_app: { url: `https://tatle-alis-projects-e389fa47.vercel.app/?userId=${userId}` }
-                        }
-                    ]
-                ]
-            }
-        });
+        // البحث عن المستخدم في قاعدة البيانات وتحديث النقاط
+        await usersCollection.updateOne({ userId: userId }, { $set: { points: data.points } }, { upsert: true });
+        console.log(`تم تحديث نقاط المستخدم ${userId}: ${data.points}`);
     } catch (error) {
-        console.error('خطأ أثناء استرجاع بيانات المستخدم:', error);
-        bot.sendMessage(chatId, 'حدث خطأ أثناء استرجاع بياناتك.');
+        console.error('خطأ أثناء تحديث نقاط المستخدم:', error);
+    }
+});
+
+// نقطة نهاية لجلب نقاط المستخدم
+app.get('/getUserPoints', async (req, res) => {
+    const userId = req.query.userId;
+
+    try {
+        const user = await usersCollection.findOne({ userId: userId });
+        res.json({ points: user ? user.points : 0 });
+    } catch (error) {
+        console.error('خطأ في استرجاع النقاط:', error);
+        res.status(500).send('حدث خطأ أثناء استرجاع النقاط.');
     }
 });
 
