@@ -2,31 +2,33 @@ const { MongoClient } = require('mongodb');
 const express = require('express');
 const TelegramBot = require('node-telegram-bot-api');
 
-const token = '7891399266:AAEDdHQbEzH42ZAZqxzgrnSnGdU2Lr1L0BI';
+// توكن البوت (استبدل التوكن بالتوكن الذي قدمته)
+const token = '7891399266:AAEDdHQbEzH42ZAZqxzgrnSnGdU2Lr1L0BI';  
 const bot = new TelegramBot(token, { polling: true });
 
+// إعداد خادم Express
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 let db;
 let usersCollection;
 
-// رابط MongoDB
+// رابط MongoDB (تم تعديله)
 const MONGO_URI = 'mongodb+srv://alifakarr:Aliliwaa00@ali.wweyt.mongodb.net/?retryWrites=true&w=majority&appName=Ali';
 
+// الاتصال بقاعدة البيانات
 async function connectDB() {
     try {
         const client = new MongoClient(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
         await client.connect();
         db = client.db('telegram_mini_app');
-        usersCollection = db.collection('users');  // تعيين مجموعة "users"
+        usersCollection = db.collection('users'); // تعيين مجموعة "users"
         console.log('تم الاتصال بقاعدة البيانات بنجاح');
     } catch (error) {
         console.error('خطأ أثناء الاتصال بقاعدة البيانات:', error);
     }
 }
 
-// الاتصال بقاعدة البيانات
 connectDB();
 
 // استقبال أوامر البوت
@@ -58,7 +60,7 @@ bot.onText(/\/start/, async (msg) => {
                     [
                         {
                             text: 'افتح التطبيق',
-                            web_app: { url: `tatle-alis-projects-e389fa47.vercel.app}` }
+                            web_app: { url: `https://tatle-alis-projects-e389fa47.vercel.app/?userId=${userId}` }
                         }
                     ]
                 ]
@@ -70,7 +72,11 @@ bot.onText(/\/start/, async (msg) => {
     }
 });
 
-// تشغيل الخادم
+// تشغيل الخادم على Vercel
+app.get('/', (req, res) => {
+    res.send('الخادم يعمل بنجاح!');
+});
+
 app.listen(PORT, () => {
     console.log(`الخادم يعمل على المنفذ ${PORT}`);
 });
