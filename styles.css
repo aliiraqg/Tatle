@@ -1,0 +1,181 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #0d0d2b;
+    color: white;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #12122b;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #1e1e30;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+}
+
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.username-info {
+    margin-left: 10px;
+    text-align: left;
+}
+
+.username {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.level {
+    font-size: 12px;
+    color: #aaa;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1win;
+}
+
+.stats {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.token-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.token-icon {
+    width: 30px;
+    margin-right: 10px;
+}
+
+.points-count {
+    font-size: 48px;
+    font-weight: bold;
+    color: gold;
+}
+
+.earn-rate {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #f0ad4e;
+}
+
+.character {
+    margin-top: 20px;
+}
+
+.character-img {
+    width: 220px;
+    cursor: pointer;
+    transition: transform 0.2s ease; /* تكبير الصورة عند الضغط */
+}
+
+.character-img.animated:active {
+    transform: scale(1.1); /* تكبير بسيط للصورة عند الضغط */
+}
+
+.task-section {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.energy {
+    color: #f0ad4e;
+    margin-bottom: 10px;
+}
+
+.tasks {
+    margin-top: 10px;
+}
+
+.task-button {
+    background-color: #1e1e30;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.task-button:hover {
+    background-color: #f0ad4e;
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.nav-button {
+    background-color: #1e1e30;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    flex-grow: 1;
+    margin: 0 5px;
+}
+
+.nav-button:hover {
+    background-color: #f0ad4e;
+}
+
+@media (max-width: 768px) {
+    .container {
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    .character-img {
+        width: 180px;
+    }
+
+    .points-count {
+        font-size: 36px;
+    }
+
+    .task-button {
+        padding: 8px;
+    }
+
+    .nav-button {
+        padding: 8px 10px;
+    }
+}
