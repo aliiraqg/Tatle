@@ -2,7 +2,7 @@ const { MongoClient } = require('mongodb');
 const express = require('express');
 const TelegramBot = require('node-telegram-bot-api');
 
-// توكن البوت
+// توكن البوت (تم تضمين التوكن الذي قدمته)
 const token = '7891399266:AAEDdHQbEzH42ZAZqxzgrnSnGdU2Lr1L0BI';  
 const bot = new TelegramBot(token, { polling: true });
 
@@ -12,10 +12,9 @@ const PORT = process.env.PORT || 3000;
 let db;
 let usersCollection;
 
-// رابط MongoDB
+// رابط MongoDB (تم تضمين الرابط الذي قدمته)
 const MONGO_URI = 'mongodb+srv://alifakarr:Aliliwaa00@ali.wweyt.mongodb.net/?retryWrites=true&w=majority&appName=Ali';
 
-// الاتصال بقاعدة البيانات
 async function connectDB() {
     try {
         const client = new MongoClient(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -41,7 +40,6 @@ bot.on('web_app_data', async (msg) => {
     }
 
     try {
-        // البحث عن المستخدم في قاعدة البيانات وتحديث النقاط
         await usersCollection.updateOne({ userId: userId }, { $set: { points: data.points } }, { upsert: true });
         console.log(`تم تحديث نقاط المستخدم ${userId}: ${data.points}`);
     } catch (error) {
