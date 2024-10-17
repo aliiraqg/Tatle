@@ -1,12 +1,28 @@
+const urlParams = new URLSearchParams(window.location.search);
+const userId = urlParams.get('userId');
 let points = 0;
 
-document.getElementById('clickable-character').addEventListener('click', function() {
-    points += 1;
-    document.getElementById('points').textContent = points.toLocaleString();
+function savePointsToServer(points) {
+    const data = { userId, points };
+    
+    fetch('https://index-ruby-one.vercel.app/', {  // استبدل هذا بـ URL الخادم
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        console.log('تم حفظ النقاط:', result);
+    })
+    .catch(error => {
+        console.error('خطأ أثناء حفظ النقاط:', error);
+    });
+}
 
-    // إضافة أنميشن عند الضغط
-    this.classList.add('animated');
-    setTimeout(() => {
-        this.classList.remove('animated');
-    }, 200); // مدة الأنميشن 200ms
+document.getElementById('clickable-character').addEventListener('click', () => {
+    points += 5;  // زيادة النقاط بمقدار 5 لكل ضغطة
+    document.getElementById('points').textContent = points;
+    savePointsToServer(points);  // حفظ النقاط عند الضغط
 });
