@@ -58,7 +58,7 @@ bot.onText(/\/start/, async (msg) => {
                     [
                         {
                             text: 'افتح التطبيق',
-                            web_app: { url: `https://tatle-alis-projects-e389fa47.vercel.app/?userId=${userId}` }
+                            web_app: { url: `tatle-alis-projects-e389fa47.vercel.app}` }
                         }
                     ]
                 ]
