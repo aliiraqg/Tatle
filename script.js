@@ -1,28 +1,29 @@
+let points = 0; // النقاط الافتراضية
+
+// استرجاع userId من URL الخاص بالويب تليجرام
 const urlParams = new URLSearchParams(window.location.search);
 const userId = urlParams.get('userId');
-let points = 0;
 
-function savePointsToServer(points) {
-    const data = { userId, points };
-    
-    fetch('tatle-alis-projects-e389fa47.vercel.app', {  // استبدل هذا بـ URL الخادم
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(result => {
-        console.log('تم حفظ النقاط:', result);
-    })
-    .catch(error => {
-        console.error('خطأ أثناء حفظ النقاط:', error);
-    });
+// جلب النقاط من قاعدة البيانات
+async function fetchPoints() {
+    try {
+        const response = await fetch(`/getUserPoints?userId=${userId}`);
+        const data = await response.json();
+        points = data.points || 0;
+        document.getElementById('points').textContent = points;
+    } catch (error) {
+        console.error('خطأ في استرجاع النقاط:', error);
+    }
 }
 
-document.getElementById('clickable-character').addEventListener('click', () => {
-    points += 5;  // زيادة النقاط بمقدار 5 لكل ضغطة
+// تحديث النقاط عند النقر
+document.getElementById('clickable-character').addEventListener('click', function() {
+    points += 5; // إضافة النقاط عند كل نقرة
     document.getElementById('points').textContent = points;
-    savePointsToServer(points);  // حفظ النقاط عند الضغط
+
+    // إرسال النقاط إلى قاعدة البيانات عبر Telegram Web App
+    Telegram.WebApp.sendData(JSON.stringify({ points: points }));  // إرسال النقاط للبوت
 });
+
+// استدعاء دالة استرجاع النقاط عند تحميل الصفحة
+fetchPoints();
