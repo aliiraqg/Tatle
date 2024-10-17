@@ -1,4 +1,4 @@
-let points = 462329;
+let points = 0;
 
 document.getElementById('clickable-character').addEventListener('click', function() {
     points += 1;
