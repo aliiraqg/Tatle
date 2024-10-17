@@ -5,7 +5,7 @@ let points = 0;
 function savePointsToServer(points) {
     const data = { userId, points };
     
-    fetch('https://index-ruby-one.vercel.app/', {  // استبدل هذا بـ URL الخادم
+    fetch('tatle-alis-projects-e389fa47.vercel.app', {  // استبدل هذا بـ URL الخادم
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
