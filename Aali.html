@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1win Token</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #0d0d2b;
+            color: white;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #12122b;
+            border-radius: 15px;
+        }
+        /* أضف باقي التنسيقات هنا */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>1win Token</h1>
+        <p>نقاطك الحالية: <span id="points">0</span></p>
+        <button id="add-points-btn">إضافة نقاط</button>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('userId');
+        let points = 0;
+
+        function savePointsToTelegram(points) {
+            const data = { points };
+            console.log('إرسال البيانات إلى البوت:', data);  // تتبع البيانات
+            Telegram.WebApp.sendData(JSON.stringify(data));  // إرسال البيانات للبوت
+        }
+
+        document.getElementById('add-points-btn').addEventListener('click', () => {
+            points += 5;
+            document.getElementById('points').textContent = points;
+            savePointsToTelegram(points);  // حفظ النقاط عند الضغط
+        });
+    </script>
+</body>
+</html>
