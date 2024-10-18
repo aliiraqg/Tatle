@@ -14,6 +14,11 @@ if (userIdFromUrl) {
 // استرجاع userId من Local Storage
 const userId = localStorage.getItem('userId');
 
+// استرجاع الطاقة من Local Storage (إذا كانت موجودة)
+if (localStorage.getItem('energy')) {
+    energy = parseInt(localStorage.getItem('energy'));
+}
+
 // التحقق من أن userId موجود
 if (!userId) {
     alert("لم يتم العثور على معرف المستخدم. تأكد من فتح التطبيق عبر تليجرام.");
@@ -28,6 +33,9 @@ if (!userId) {
             energy -= 1; // تقليل الطاقة عند كل نقرة
             document.getElementById('points').textContent = points;
             document.getElementById('energy').textContent = energy;
+
+            // تخزين الطاقة في Local Storage
+            localStorage.setItem('energy', energy);
 
             // إرسال النقاط والطاقة إلى الخادم عبر WebAppData
             try {
@@ -48,13 +56,12 @@ if (!userId) {
         }
     });
 
-    // عند تحميل الصفحة، تأكد من جلب النقاط الحالية والطاقة للمستخدم (إذا كانت متاحة)
+    // عند تحميل الصفحة، تأكد من جلب النقاط والطاقة الحالية للمستخدم (إذا كانت متاحة)
     async function fetchPointsAndEnergy() {
         try {
             const response = await fetch(`http://localhost:3000/getUserPoints?userId=${userId}`);
             const data = await response.json();
             points = data.points || 0;  // تعيين النقاط المسترجعة أو 0 إذا لم تكن موجودة
-            energy = data.energy || 500;  // تعيين الطاقة المسترجعة أو 500 إذا لم تكن موجودة
             document.getElementById('points').textContent = points;
             document.getElementById('energy').textContent = energy;
         } catch (error) {
@@ -70,6 +77,9 @@ if (!userId) {
         if (energy < 500) {
             energy += 1; // زيادة الطاقة بمقدار 1 كل 5 ثواني
             document.getElementById('energy').textContent = energy;
+
+            // تخزين الطاقة في Local Storage
+            localStorage.setItem('energy', energy);
         }
     }, 5000); // 5000 ملي ثانية = 5 ثواني
 }
