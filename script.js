@@ -61,3 +61,13 @@ if (!userId) {
 function navigateTo(page) {
     window.location.href = page;
 }
+
+document.addEventListener('gesturestart', function (e) {
+    e.preventDefault();
+});
+document.addEventListener('gesturechange', function (e) {
+    e.preventDefault();
+});
+document.addEventListener('gestureend', function (e) {
+    e.preventDefault();
+});
