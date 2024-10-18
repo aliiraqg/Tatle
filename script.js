@@ -71,3 +71,18 @@ document.addEventListener('gesturechange', function (e) {
 document.addEventListener('gestureend', function (e) {
     e.preventDefault();
 });
+
+
+
+// منع النسخ واللصق والقص
+document.addEventListener('copy', function(e) {
+    e.preventDefault(); // منع النسخ
+});
+
+document.addEventListener('cut', function(e) {
+    e.preventDefault(); // منع القص
+});
+
+document.addEventListener('paste', function(e) {
+    e.preventDefault(); // منع اللصق
+});
