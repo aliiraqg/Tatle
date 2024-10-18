@@ -28,14 +28,16 @@ if (!userId) {
     if (lastActivityTime) {
         const currentTime = Date.now();
         const timeDifference = currentTime - lastActivityTime; // الفرق بالمللي ثانية
+
+        // حساب الطاقة التي يجب إضافتها بناءً على الوقت المنقضي
         const energyIncrease = Math.floor(timeDifference / energyIncreaseInterval); // زيادة الطاقة بناءً على الوقت المنقضي
 
         // حساب الطاقة الجديدة بناءً على الوقت المنقضي وزيادتها تدريجيًا
         energy = Math.min(energy + energyIncrease, maxEnergy); // التأكد من عدم تجاوز الحد الأقصى للطاقة
         document.querySelector('.energy span').textContent = energy;
 
-        // تخزين الوقت الحالي كآخر نشاط بعد الحساب
-        const remainderTime = timeDifference % energyIncreaseInterval; // الوقت المتبقي من الزيادة الكاملة
+        // تحديث الوقت الأخير بعد الحساب
+        const remainderTime = timeDifference % energyIncreaseInterval; // الجزء المتبقي من الوقت
         localStorage.setItem('lastActivityTime', currentTime - remainderTime);
     }
 
@@ -75,7 +77,7 @@ if (!userId) {
         if (energy < maxEnergy) {
             energy++;
             document.querySelector('.energy span').textContent = energy;
-            // تخزين وقت آخر تفاعل
+            // تحديث الوقت بعد زيادة الطاقة
             localStorage.setItem('lastActivityTime', Date.now());
         }
     }, energyIncreaseInterval);
