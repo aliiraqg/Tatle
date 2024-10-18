@@ -1,18 +1,16 @@
 let points = 0; // النقاط الافتراضية
 
-// التأكد من وجود Telegram WebApp وتهيئته
+// التحقق من وجود Telegram WebApp
 if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
     // تهيئة Telegram WebApp
     Telegram.WebApp.ready();
 
     // استرجاع بيانات المستخدم من Telegram WebApp
-    const initData = Telegram.WebApp.initData;
-    const initDataUnsafe = Telegram.WebApp.initDataUnsafe;
-
-    // التحقق من أن بيانات المستخدم موجودة
-    if (initData && initDataUnsafe && initDataUnsafe.user) {
-        const userId = initDataUnsafe.user.id; // معرف المستخدم من Telegram
-        const username = initDataUnsafe.user.username || initDataUnsafe.user.first_name || 'اسم المستخدم الافتراضي'; // اسم المستخدم أو الاسم الأول
+    const telegramData = Telegram.WebApp.initDataUnsafe;
+    
+    if (telegramData && telegramData.user) {
+        const userId = telegramData.user.id; // معرف المستخدم من Telegram
+        const username = telegramData.user.username || telegramData.user.first_name || 'اسم المستخدم الافتراضي'; // اسم المستخدم أو الاسم الأول
 
         // تعيين اسم المستخدم في الصفحة
         document.getElementById('username').textContent = username;
