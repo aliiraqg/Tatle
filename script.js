@@ -1,59 +1,60 @@
 let points = 0; // النقاط الافتراضية
 
-// جلب بيانات Telegram WebApp بشكل صحيح
-if (typeof Telegram !== 'undefined' && Telegram.WebApp && Telegram.WebApp.initDataUnsafe) {
-    const telegramData = Telegram.WebApp.initDataUnsafe; // الحصول على بيانات المستخدم من Telegram
+// استرجاع userId من URL الخاص بالويب تليجرام أو من التخزين المحلي
+const urlParams = new URLSearchParams(window.location.search);
+const userIdFromUrl = urlParams.get('userId');
+const usernameFromUrl = urlParams.get('username'); // استرجاع اسم المستخدم من URL
 
-    if (telegramData && telegramData.user) {
-        const userId = telegramData.user.id;  // معرف المستخدم من Telegram
-        const username = telegramData.user.username || telegramData.user.first_name || 'اسم المستخدم الافتراضي'; // اسم المستخدم أو الاسم الأول
+// إذا كان userId موجود في URL، نخزنه في Local Storage
+if (userIdFromUrl) {
+    localStorage.setItem('userId', userIdFromUrl);
+}
 
-        // حفظ userId في Local Storage
-        localStorage.setItem('userId', userId);
+// استرجاع userId من Local Storage
+const userId = localStorage.getItem('userId');
 
-        // تعيين اسم المستخدم في العنصر
-        document.getElementById('username').textContent = username;
-
-        // تحديث النقاط عند النقر على الشخصية
-        document.getElementById('clickable-character').addEventListener('click', async function() {
-            points += 5; // إضافة النقاط عند كل نقرة
-            document.getElementById('points').textContent = points;
-
-            // إرسال النقاط إلى الخادم عبر WebAppData
-            try {
-                const response = await fetch('http://localhost:3000/web_app_data', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ userId: userId, points: points })
-                });
-                const data = await response.json();
-                console.log('تم إرسال البيانات إلى الخادم:', { userId: userId, points: points });
-            } catch (error) {
-                console.error('حدث خطأ أثناء إرسال البيانات إلى الخادم:', error);
-            }
-        });
-
-        // عند تحميل الصفحة، تأكد من جلب النقاط الحالية للمستخدم (إذا كانت متاحة)
-        async function fetchPoints() {
-            try {
-                const response = await fetch(`http://localhost:3000/getUserPoints?userId=${userId}`);
-                const data = await response.json();
-                points = data.points || 0;  // تعيين النقاط المسترجعة أو 0 إذا لم تكن موجودة
-                document.getElementById('points').textContent = points;
-            } catch (error) {
-                console.error('خطأ في استرجاع النقاط:', error);
-            }
-        }
-
-        // استدعاء دالة استرجاع النقاط عند تحميل الصفحة
-        fetchPoints();
-    } else {
-        alert("تعذر جلب بيانات المستخدم من تليجرام.");
-    }
+// التحقق من أن userId موجود
+if (!userId) {
+    alert("لم يتم العثور على معرف المستخدم. تأكد من فتح التطبيق عبر تليجرام.");
 } else {
-    alert("يرجى فتح التطبيق داخل Telegram.");
+    // تعيين اسم المستخدم في العنصر
+    document.getElementById('username').textContent = usernameFromUrl || "اسم المستخدم الافتراضي"; // عرض اسم المستخدم
+
+    // تحديث النقاط عند النقر على الشخصية
+    document.getElementById('clickable-character').addEventListener('click', async function() {
+        points += 5; // إضافة النقاط عند كل نقرة
+        document.getElementById('points').textContent = points;
+
+        // إرسال النقاط إلى الخادم عبر WebAppData
+        try {
+            const response = await fetch('http://localhost:3000/web_app_data', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userId: userId, points: points })
+            });
+            const data = await response.json();
+            console.log('تم إرسال البيانات إلى الخادم:', { userId: userId, points: points });
+        } catch (error) {
+            console.error('حدث خطأ أثناء إرسال البيانات إلى الخادم:', error);
+        }
+    });
+
+    // عند تحميل الصفحة، تأكد من جلب النقاط الحالية للمستخدم (إذا كانت متاحة)
+    async function fetchPoints() {
+        try {
+            const response = await fetch(`http://localhost:3000/getUserPoints?userId=${userId}`);
+            const data = await response.json();
+            points = data.points || 0;  // تعيين النقاط المسترجعة أو 0 إذا لم تكن موجودة
+            document.getElementById('points').textContent = points;
+        } catch (error) {
+            console.error('خطأ في استرجاع النقاط:', error);
+        }
+    }
+
+    // استدعاء دالة استرجاع النقاط عند تحميل الصفحة
+    fetchPoints();
 }
 
 // دالة التنقل بين الصفحات
