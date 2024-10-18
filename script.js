@@ -1,6 +1,7 @@
 let points = 0; // النقاط الافتراضية
 let energy = 10; // تعيين الطاقة الافتراضية
 const maxEnergy = 10; // الحد الأقصى للطاقة
+const energyIncreaseInterval = 5 * 1000; // زيادة الطاقة كل 5 ثواني
 
 // استرجاع userId من URL الخاص بالويب تليجرام أو من التخزين المحلي
 const urlParams = new URLSearchParams(window.location.search);
@@ -27,11 +28,15 @@ if (!userId) {
     if (lastActivityTime) {
         const currentTime = Date.now();
         const timeDifference = currentTime - lastActivityTime; // الفرق بالمللي ثانية
-        const energyIncrease = Math.floor(timeDifference / (5 * 1000)); // زيادة الطاقة كل 5 ثواني
+        const energyIncrease = Math.floor(timeDifference / energyIncreaseInterval); // زيادة الطاقة بناءً على الوقت المنقضي
 
-        // حساب الطاقة الجديدة بناءً على الوقت المنقضي
+        // حساب الطاقة الجديدة بناءً على الوقت المنقضي وزيادتها تدريجيًا
         energy = Math.min(energy + energyIncrease, maxEnergy); // التأكد من عدم تجاوز الحد الأقصى للطاقة
         document.querySelector('.energy span').textContent = energy;
+
+        // تخزين الوقت الحالي كآخر نشاط بعد الحساب
+        const remainderTime = timeDifference % energyIncreaseInterval; // الوقت المتبقي من الزيادة الكاملة
+        localStorage.setItem('lastActivityTime', currentTime - remainderTime);
     }
 
     // تحديث النقاط عند النقر على الشخصية
@@ -70,8 +75,10 @@ if (!userId) {
         if (energy < maxEnergy) {
             energy++;
             document.querySelector('.energy span').textContent = energy;
+            // تخزين وقت آخر تفاعل
+            localStorage.setItem('lastActivityTime', Date.now());
         }
-    }, 5000);
+    }, energyIncreaseInterval);
 
     // عند تحميل الصفحة، تأكد من جلب النقاط الحالية للمستخدم (إذا كانت متاحة)
     async function fetchPoints() {
