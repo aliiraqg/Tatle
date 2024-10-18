@@ -198,3 +198,11 @@ html, body {
     touch-action: manipulation;
     overflow: hidden;
 }
+
+/* منع تحديد النص */
+body {
+    user-select: none; /* هذا الخاصية تمنع تحديد النص */
+    -webkit-user-select: none; /* لمتصفحات Webkit */
+    -moz-user-select: none; /* لمتصفحات Firefox */
+    -ms-user-select: none; /* لمتصفح Internet Explorer */
+}
