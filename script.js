@@ -1,6 +1,6 @@
 let points = 0; // النقاط الافتراضية
-let energy = 10; // الطاقة الافتراضية
-const maxEnergy = 10; // الحد الأقصى للطاقة
+let energy = 500; // الطاقة الافتراضية
+const maxEnergy = 500; // الحد الأقصى للطاقة
 const energyIncreaseInterval = 5 * 1000; // زيادة الطاقة كل 5 ثوانٍ
 const energyIncreaseAmount = 1; // كمية الطاقة التي تضاف كل 5 ثوانٍ
 
