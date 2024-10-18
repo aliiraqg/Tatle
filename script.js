@@ -1,4 +1,4 @@
-let points = 15; // النقاط الافتراضية
+let points = 0; // النقاط الافتراضية
 
 // استرجاع userId من URL الخاص بالويب تليجرام
 const urlParams = new URLSearchParams(window.location.search);
@@ -28,7 +28,7 @@ if (!userId) {
         try {
             const response = await fetch(`http://localhost:3000/getUserPoints?userId=${userId}`);
             const data = await response.json();
-            points = data.points || 10;  // تعيين النقاط المسترجعة أو 100000 إذا لم تكن موجودة
+            points = data.points || 10;  // تعيين النقاط المسترجعة أو 20 إذا لم تكن موجودة
             document.getElementById('points').textContent = points;
         } catch (error) {
             console.error('خطأ في استرجاع النقاط:', error);
