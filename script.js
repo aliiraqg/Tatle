@@ -9,16 +9,23 @@ if (!userId) {
     alert("لم يتم العثور على معرف المستخدم. تأكد من فتح التطبيق عبر تليجرام.");
 } else {
     // تحديث النقاط عند النقر على الشخصية
-    document.getElementById('clickable-character').addEventListener('click', function() {
+    document.getElementById('clickable-character').addEventListener('click', async function() {
         points += 5; // إضافة النقاط عند كل نقرة
         document.getElementById('points').textContent = points;
 
-        // إرسال النقاط إلى البوت عبر WebAppData
+        // إرسال النقاط إلى الخادم عبر WebAppData
         try {
-            Telegram.WebApp.sendData(JSON.stringify({ userId: userId, points: points }));
-            console.log('تم إرسال البيانات إلى البوت:', { userId: userId, points: points });
+            const response = await fetch('http://localhost:3000/web_app_data', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userId: userId, points: points })
+            });
+            const data = await response.json();
+            console.log('تم إرسال البيانات إلى الخادم:', { userId: userId, points: points });
         } catch (error) {
-            console.error('حدث خطأ أثناء إرسال البيانات إلى البوت:', error);
+            console.error('حدث خطأ أثناء إرسال البيانات إلى الخادم:', error);
         }
     });
 
@@ -29,3 +36,11 @@ if (!userId) {
             const data = await response.json();
             points = data.points || 0;  // تعيين النقاط المسترجعة أو 0 إذا لم تكن موجودة
             document.getElementById('points').textContent = points;
+        } catch (error) {
+            console.error('خطأ في استرجاع النقاط:', error);
+        }
+    }
+
+    // استدعاء دالة استرجاع النقاط عند تحميل الصفحة
+    fetchPoints();
+}
