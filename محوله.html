@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>محول العملة</title>
+    <link rel="stylesheet" href="محوله.css">
+</head>
+<body>
+    <div class="container">
+        <div class="currency-container">
+            <h1>محول العملة</h1>
+            <div class="input-box">
+                <input type="text" id="amount" placeholder="أدخل المبلغ" required />
+            </div>
+            <div class="currency">
+                <div class="box">
+                    <select class="select-option" name="from-currency" id="fromCurrency">
+                        <option value="USDT">USDT (Tether)</option>
+                        <option value="IQU">IQU (Your Token)</option>
+                    </select>
+                </div>
+                <div class="swap-button">
+                    <button onclick="swapCurrencies()">⇅</button> <!-- زر مبادلة العملات -->
+                </div>
+                <div class="box">
+                    <select class="select-option" name="to-currency" id="toCurrency">
+                        <option value="IQU">IQU (Your Token)</option>
+                        <option value="USDT">USDT (Tether)</option>
+                    </select>
+                </div>
+                <button class="convert" onclick="convertCurrency()">تحويل</button>
+                <p class="result" id="result"></p>
+            </div>
+        </div>
+
+        <!-- الأقسام السفلية -->
+        <div class="navigation">
+            <button class="nav-button" onclick="navigateTo('index.html')">الرئيسية</button>
+            <button class="nav-button" onclick="navigateTo('earnings.html')">الأرباح</button>
+            <button class="nav-button" onclick="navigateTo('fr.html')">الأصدقاء</button>
+            <button class="nav-button" onclick="navigateTo('1win.html')">1win</button>
+        </div>
+
+        <script src="محوله.js"></script>
+    </div>
+</body>
+</html>
