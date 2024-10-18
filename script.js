@@ -2,6 +2,9 @@ let points = 0; // النقاط الافتراضية
 
 // التحقق من وجود Telegram WebApp
 if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+    // تهيئة Telegram WebApp
+    Telegram.WebApp.ready();
+
     // الحصول على بيانات المستخدم من Telegram WebApp
     const telegramData = Telegram.WebApp.initDataUnsafe;
     
