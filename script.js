@@ -48,23 +48,16 @@ if (!userId) {
             document.querySelector('.energy span').textContent = energy;
 
             try {
-                console.log('إرسال النقاط إلى الخادم...');
-
-                // تعديل هنا للتحقق من الاتصال بالخادم
-                const response = await fetch('https://example.com/web_app_data', {  // تأكد من تعديل الرابط هنا
+                // إرسال النقاط إلى الخادم
+                const response = await fetch('http://localhost:3000/web_app_data', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ userId: userId, points: points })
                 });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log('تم إرسال البيانات إلى الخادم بنجاح:', { userId: userId, points: points });
-                } else {
-                    console.error('حدث خطأ في الاتصال بالخادم:', response.statusText);
-                }
+                const data = await response.json();
+                console.log('تم إرسال البيانات إلى الخادم:', { userId: userId, points: points });
             } catch (error) {
                 console.error('حدث خطأ أثناء إرسال البيانات إلى الخادم:', error);
             }
@@ -89,17 +82,10 @@ if (!userId) {
     // عند تحميل الصفحة، تأكد من جلب النقاط الحالية
     async function fetchPoints() {
         try {
-            console.log('جلب النقاط الحالية من الخادم...');
-            const response = await fetch(`https://example.com/getUserPoints?userId=${userId}`); // تأكد من تعديل الرابط هنا
-
-            if (response.ok) {
-                const data = await response.json();
-                points = data.points || 0;  // استرجاع النقاط
-                document.getElementById('points').textContent = points;
-                console.log('تم جلب النقاط بنجاح:', points);
-            } else {
-                console.error('حدث خطأ في الاتصال بالخادم:', response.statusText);
-            }
+            const response = await fetch(`http://localhost:3000/getUserPoints?userId=${userId}`);
+            const data = await response.json();
+            points = data.points || 0;  // استرجاع النقاط
+            document.getElementById('points').textContent = points;
         } catch (error) {
             console.error('خطأ في استرجاع النقاط:', error);
         }
