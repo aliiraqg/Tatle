@@ -29,11 +29,3 @@ if (!userId) {
             const data = await response.json();
             points = data.points || 0;  // تعيين النقاط المسترجعة أو 0 إذا لم تكن موجودة
             document.getElementById('points').textContent = points;
-        } catch (error) {
-            console.error('خطأ في استرجاع النقاط:', error);
-        }
-    }
-
-    // استدعاء دالة استرجاع النقاط عند تحميل الصفحة
-    fetchPoints();
-}
