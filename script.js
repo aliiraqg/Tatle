@@ -29,16 +29,19 @@ if (!userId) {
         const currentTime = Date.now();
         const timeDifference = currentTime - lastActivityTime; // الفرق بالمللي ثانية
 
-        // حساب الطاقة التي يجب إضافتها بناءً على الوقت المنقضي
-        const energyIncrease = Math.floor(timeDifference / energyIncreaseInterval); // زيادة الطاقة بناءً على الوقت المنقضي
+        // حساب عدد المرات التي كان يمكن أن تزداد فيها الطاقة منذ آخر نشاط
+        const energyIncrease = Math.floor(timeDifference / energyIncreaseInterval);
 
         // حساب الطاقة الجديدة بناءً على الوقت المنقضي وزيادتها تدريجيًا
         energy = Math.min(energy + energyIncrease, maxEnergy); // التأكد من عدم تجاوز الحد الأقصى للطاقة
         document.querySelector('.energy span').textContent = energy;
 
-        // تحديث الوقت الأخير بعد الحساب
-        const remainderTime = timeDifference % energyIncreaseInterval; // الجزء المتبقي من الوقت
-        localStorage.setItem('lastActivityTime', currentTime - remainderTime);
+        // تخزين الوقت الجديد بعد تحديث الطاقة
+        const newActivityTime = currentTime - (timeDifference % energyIncreaseInterval); // حساب الوقت المتبقي
+        localStorage.setItem('lastActivityTime', newActivityTime);
+    } else {
+        // تخزين الوقت الحالي كوقت نشاط أولي إذا لم يكن موجودًا
+        localStorage.setItem('lastActivityTime', Date.now());
     }
 
     // تحديث النقاط عند النقر على الشخصية
@@ -77,6 +80,7 @@ if (!userId) {
         if (energy < maxEnergy) {
             energy++;
             document.querySelector('.energy span').textContent = energy;
+
             // تحديث الوقت بعد زيادة الطاقة
             localStorage.setItem('lastActivityTime', Date.now());
         }
