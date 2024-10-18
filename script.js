@@ -1,21 +1,16 @@
 let points = 0; // النقاط الافتراضية
 
-// دالة التنقل بين الصفحات مع تمرير userId
-function navigateTo(page) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const userId = urlParams.get('userId');
-    
-    if (userId) {
-        // الانتقال إلى الصفحة مع إرفاق userId في الرابط
-        window.location.href = `${page}?userId=${userId}`;
-    } else {
-        alert("لم يتم العثور على معرف المستخدم. تأكد من فتح التطبيق عبر تليجرام.");
-    }
+// استرجاع userId من URL الخاص بالويب تليجرام أو من التخزين المحلي
+const urlParams = new URLSearchParams(window.location.search);
+const userIdFromUrl = urlParams.get('userId');
+
+// إذا كان userId موجود في URL، نخزنه في Local Storage
+if (userIdFromUrl) {
+    localStorage.setItem('userId', userIdFromUrl);
 }
 
-// استرجاع userId من URL الخاص بالويب تليجرام
-const urlParams = new URLSearchParams(window.location.search);
-const userId = urlParams.get('userId');
+// استرجاع userId من Local Storage
+const userId = localStorage.getItem('userId');
 
 // التحقق من أن userId موجود
 if (!userId) {
@@ -56,4 +51,9 @@ if (!userId) {
 
     // استدعاء دالة استرجاع النقاط عند تحميل الصفحة
     fetchPoints();
+}
+
+// دالة التنقل بين الصفحات
+function navigateTo(page) {
+    window.location.href = page;
 }
