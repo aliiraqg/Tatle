@@ -1,8 +1,12 @@
 let points = 0; // النقاط الافتراضية
 
-// جلب بيانات Telegram WebApp
-if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
-    const telegramData = Telegram.WebApp.initDataUnsafe; // الحصول على بيانات المستخدم من Telegram
+// التأكد من أن Telegram WebApp متاح
+if (typeof Telegram !== 'undefined' && Telegram.WebApp.initDataUnsafe) {
+    // التأكد من أن Telegram WebApp جاهز
+    Telegram.WebApp.ready();
+
+    // استرجاع بيانات المستخدم من Telegram WebApp
+    const telegramData = Telegram.WebApp.initDataUnsafe;
 
     if (telegramData && telegramData.user) {
         const userId = telegramData.user.id;  // معرف المستخدم من Telegram
@@ -53,7 +57,7 @@ if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
         alert("تعذر جلب بيانات المستخدم من تليجرام.");
     }
 } else {
-    alert("يرجى فتح التطبيق داخل تليجرام.");
+    console.error("Telegram WebApp غير متاح أو لم يتم تهيئته بشكل صحيح.");
 }
 
 // دالة التنقل بين الصفحات
