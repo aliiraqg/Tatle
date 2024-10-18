@@ -3,46 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>دعوة الأصدقاء</title>
-    <link rel="stylesheet" href="styles1.css">
+    <title>عدن وربح</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <!-- عنوان الصفحة -->
         <div class="header">
-            <div class="title">1win Token</div>
-        </div>
-
-        <!-- معلومات الحساب -->
-        <div class="profile-section">
-            <div class="profile-info">
+            <div class="profile">
                 <img src="https://i.top4top.io/p_3213fgmk60.png" alt="Profile" class="profile-pic">
                 <div class="username-info">
-                    <span class="username">Ali $X</span>
-                    <div class="level">المستوى 1</div>
+                    <span class="username" id="username">جاري تحميل اسم المستخدم...</span> <!-- سيتم استبدال اسم المستخدم -->
+                    <div class="level">الأول</div>
                 </div>
             </div>
+            <div class="title">عدن وربح</div>
         </div>
 
-        <!-- دعوة صديق -->
-        <div class="invite-section">
-            <div class="invite-message">
-                دعوة صديقًا
-                <span class="reward">+50,000</span>
-                لك ولصديقك
+        <div class="stats">
+            <div class="token-info">
+                <img src="https://j.top4top.io/p_3213n4bwx0.png" alt="Token Icon" class="token-icon">
+                <div class="points-count" id="points">0</div>
             </div>
-            <button class="invite-button" onclick="copyInviteLink()">نسخ رابط الدعوة</button>
-            <input type="text" id="invite-link" readonly style="opacity: 0; position: absolute;">
+            <div class="earn-rate">
+                <span class="income"></span> / الساعة
+                <span class="clicks">1 النقرة</span>
+            </div>
         </div>
 
-        <!-- قائمة الأصدقاء المدعوين -->
-        <div class="friends-section">
-            <div class="section-title">الأصدقاء المدعوون</div>
-            <div class="friends-list" id="friends-list">
-                <!-- هنا سيتم عرض الأصدقاء المدعوين إذا وجدوا -->
+        <div class="character">
+            <img src="https://i.imgur.com/DZvdHZt.png" alt="Cat Character" class="character-img animated" id="clickable-character">
+        </div>
+
+        <div class="task-section">
+            <div class="energy">
+                <span>500</span> / 500 الطاقة
             </div>
-            <div id="no-friends-message" class="no-friends-message">
-                لم تقم بدعوة أي أصدقاء حتى الآن.
+            <div class="tasks">
+                <button class="task-button" onclick="navigateTo('tasks.html')">المهام (18)</button>
             </div>
         </div>
 
@@ -55,6 +52,6 @@
         </div>
     </div>
 
-    <script src="frands.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
