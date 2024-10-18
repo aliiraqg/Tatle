@@ -18,7 +18,7 @@ if (!userId) {
     alert("لم يتم العثور على معرف المستخدم. تأكد من فتح التطبيق عبر تليجرام.");
 } else {
     // تعيين اسم المستخدم في العنصر
-    document.getElementById('username').textContent = usernameFromUrl || "اسم المستخدم الافتراضي"; // عرض اسم المستخدم
+    document.getElementById('username').textContent = usernameFromUrl || "  انت الافضل"; // عرض اسم المستخدم
 
     // تحديث النقاط عند النقر على الشخصية
     document.getElementById('clickable-character').addEventListener('click', async function() {
