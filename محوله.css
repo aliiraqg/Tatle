@@ -62,12 +62,9 @@ h1 {
     margin: 10px 0;
 }
 
-.swap-button button {
-    background-color: #333;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 10px;
+.swap-button img {
+    width: 50px; /* تعديل حجم الصورة */
+    height: 50px; /* تعديل حجم الصورة */
     cursor: pointer;
 }
 
