@@ -1,7 +1,7 @@
 let points = 0; // النقاط الافتراضية
 let energy = 10; // الطاقة الافتراضية
 const maxEnergy = 10; // الحد الأقصى للطاقة
-const energyIncreaseInterval = 5 * 1000; // زيادة الطاقة كل 5 ثواني
+const energyIncreaseInterval = 5 * 1000; // زيادة الطاقة كل 5 ثوانٍ
 const energyIncreaseAmount = 1; // كمية الطاقة التي تضاف كل 5 ثوانٍ
 
 // استرجاع userId من URL الخاص بالويب تليجرام أو من التخزين المحلي
@@ -26,11 +26,12 @@ if (!userId) {
 
     // استرجاع آخر وقت كان المستخدم نشطًا فيه
     const lastActivityTime = localStorage.getItem('lastActivityTime');
+    const lastEnergyUpdateTime = localStorage.getItem('lastEnergyUpdateTime') || Date.now();
     const currentTime = Date.now();
 
     // حساب الوقت المنقضي منذ آخر نشاط
     if (lastActivityTime) {
-        const timeDifference = currentTime - lastActivityTime;
+        const timeDifference = currentTime - lastEnergyUpdateTime;
         const energyToRecover = Math.floor(timeDifference / energyIncreaseInterval) * energyIncreaseAmount;
 
         // استعادة الطاقة بناءً على الوقت المنقضي
@@ -63,6 +64,7 @@ if (!userId) {
 
             // تحديث آخر وقت نشاط
             localStorage.setItem('lastActivityTime', Date.now());
+            localStorage.setItem('lastEnergyUpdateTime', Date.now()); // تحديث وقت آخر تحديث للطاقة
         } else {
             showCustomAlert('لقد نفذت طاقتك! انتظر قليلًا لزيادة الطاقة.');
         }
@@ -73,7 +75,7 @@ if (!userId) {
         if (energy < maxEnergy) {
             energy++;
             document.querySelector('.energy span').textContent = energy;
-            localStorage.setItem('lastActivityTime', Date.now()); // تحديث وقت آخر نشاط
+            localStorage.setItem('lastEnergyUpdateTime', Date.now()); // تحديث وقت آخر زيادة للطاقة
         }
     }, energyIncreaseInterval);
 
