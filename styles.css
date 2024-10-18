@@ -179,3 +179,20 @@ body {
         padding: 8px 10px;
     }
 }
+
+.character-img {
+    width: 220px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    outline: none; /* إزالة الحدود الزرقاء */
+}
+
+.character-img:focus {
+    outline: none; /* إزالة تأثير التركيز */
+}
+
+.character-img:active {
+    transform: scale(1.1); /* تكبير بسيط للصورة عند الضغط */
+    outline: none; /* إزالة تأثير النقر */
+    box-shadow: none; /* إزالة أي تأثير ظل */
+}
