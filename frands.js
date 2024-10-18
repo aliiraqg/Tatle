@@ -36,3 +36,20 @@ function shareInviteLink() {
 function navigateTo(page) {
     window.location.href = page;
 }
+
+// إضافة مستمعي الأحداث للأقسام السفلية
+document.querySelector('.nav-button-home').addEventListener('click', function() {
+    navigateTo('index.html');  // الانتقال إلى الصفحة الرئيسية
+});
+
+document.querySelector('.nav-button-earnings').addEventListener('click', function() {
+    navigateTo('earnings.html');  // الانتقال إلى صفحة الأرباح
+});
+
+document.querySelector('.nav-button-friends').addEventListener('click', function() {
+    navigateTo('friends.html');  // الانتقال إلى صفحة الأصدقاء
+});
+
+document.querySelector('.nav-button-1win').addEventListener('click', function() {
+    navigateTo('1win.html');  // الانتقال إلى صفحة 1win
+});
