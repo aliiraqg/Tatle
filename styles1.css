@@ -206,3 +206,10 @@ body {
 .invite-button:hover {
     background-color: #f0ad4e;
 }
+
+html, body {
+    touch-action: none;
+    -ms-touch-action: none;
+    user-select: none; /* منع تحديد النصوص */
+    overflow: hidden; /* منع التمرير */
+}
