@@ -60,7 +60,7 @@ if (!userId) {
             // تخزين وقت آخر تفاعل في Local Storage
             localStorage.setItem('lastActivityTime', Date.now());
         } else {
-            alert('لقد نفذت طاقتك! انتظر قليلًا لزيادة الطاقة.');
+            showEnergyAlert(); // عرض التنبيه عند نفاذ الطاقة
         }
     });
 
@@ -93,6 +93,16 @@ function navigateTo(page) {
     window.location.href = page;
 }
 
+// دالة عرض التنبيه المخصص لنفاذ الطاقة
+function showEnergyAlert() {
+    const alertBox = document.getElementById('energy-alert');
+    alertBox.style.display = 'block';
+    
+    setTimeout(function() {
+        alertBox.style.display = 'none';
+    }, 3000); // التنبيه يظهر لمدة 3 ثوانٍ فقط
+}
+
 // منع تكبير الصفحة باللمس على الأجهزة المحمولة
 document.addEventListener('gesturestart', function (e) {
     e.preventDefault();
@@ -109,10 +119,4 @@ document.addEventListener('copy', function(e) {
     e.preventDefault(); // منع النسخ
 });
 
-document.addEventListener('cut', function(e) {
-    e.preventDefault(); // منع القص
-});
-
-document.addEventListener('paste', function(e) {
-    e.preventDefault(); // منع اللصق
-});
+document.addEventListener('cut
