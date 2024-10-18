@@ -26,9 +26,9 @@ if (!userId) {
     // عند تحميل الصفحة، تأكد من جلب النقاط الحالية للمستخدم (إذا كانت متاحة)
     async function fetchPoints() {
         try {
-            const response = await fetch(`http://localhost:3000/getUserPoints?userId=${userId}`);
+            const response = await fetch(`https://tatle-gamma.vercel.app/?userId=${userId}`);
             const data = await response.json();
-            points = data.points || 0;  // تعيين النقاط المسترجعة أو 0 إذا لم تكن موجودة
+            points = data.points ||  ;  // تعيين النقاط المسترجعة أو 0 إذا لم تكن موجودة
             document.getElementById('points').textContent = points;
         } catch (error) {
             console.error('خطأ في استرجاع النقاط:', error);
