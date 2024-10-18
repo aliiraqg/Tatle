@@ -15,9 +15,8 @@ if (!userId) {
 
         // إرسال النقاط إلى البوت عبر WebAppData
         try {
-            // استخدام Telegram.WebApp.sendData لإرسال النقاط إلى البوت
             Telegram.WebApp.sendData(JSON.stringify({ userId: userId, points: points }));
-            console.log('تم إرسال البيانات إلى البوت:', { points: points });
+            console.log('تم إرسال البيانات إلى البوت:', { userId: userId, points: points });
         } catch (error) {
             console.error('حدث خطأ أثناء إرسال البيانات إلى البوت:', error);
         }
@@ -28,7 +27,7 @@ if (!userId) {
         try {
             const response = await fetch(`http://localhost:3000/getUserPoints?userId=${userId}`);
             const data = await response.json();
-            points = data.points || 10;  // تعيين النقاط المسترجعة أو 20 إذا لم تكن موجودة
+            points = data.points || 0;  // تعيين النقاط المسترجعة أو 0 إذا لم تكن موجودة
             document.getElementById('points').textContent = points;
         } catch (error) {
             console.error('خطأ في استرجاع النقاط:', error);
