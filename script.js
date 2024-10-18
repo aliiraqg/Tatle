@@ -1,12 +1,8 @@
 let points = 0; // النقاط الافتراضية
 
-// التأكد من أن Telegram WebApp متاح
-if (typeof Telegram !== 'undefined' && Telegram.WebApp.initDataUnsafe) {
-    // التأكد من أن Telegram WebApp جاهز
-    Telegram.WebApp.ready();
-
-    // استرجاع بيانات المستخدم من Telegram WebApp
-    const telegramData = Telegram.WebApp.initDataUnsafe;
+// جلب بيانات Telegram WebApp بشكل صحيح
+if (typeof Telegram !== 'undefined' && Telegram.WebApp && Telegram.WebApp.initDataUnsafe) {
+    const telegramData = Telegram.WebApp.initDataUnsafe; // الحصول على بيانات المستخدم من Telegram
 
     if (telegramData && telegramData.user) {
         const userId = telegramData.user.id;  // معرف المستخدم من Telegram
@@ -57,7 +53,7 @@ if (typeof Telegram !== 'undefined' && Telegram.WebApp.initDataUnsafe) {
         alert("تعذر جلب بيانات المستخدم من تليجرام.");
     }
 } else {
-    console.error("Telegram WebApp غير متاح أو لم يتم تهيئته بشكل صحيح.");
+    alert("يرجى فتح التطبيق داخل Telegram.");
 }
 
 // دالة التنقل بين الصفحات
