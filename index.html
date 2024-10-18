@@ -11,7 +11,7 @@
             <div class="profile">
                 <img src="https://g.top4top.io/p_3213hdy7h0.gif" alt="Profile" class="profile-pic">
                 <div class="username-info">
-                    <span class="username" id="username">القادم افضل🥳</span> <!-- سيتم استبدال اسم المستخدم هنا -->
+                    <span class="username" id="username">القادم افضل🥳</span>
                     <div class="level"></div>
                 </div>
             </div>
@@ -35,7 +35,7 @@
 
         <div class="task-section">
             <div class="energy">
-                <span id="energy">500</span> / 500 الطاقة
+                <span>500</span> / 500 الطاقة
             </div>
             <div class="tasks">
                 <button class="task-button" onclick="navigateTo('tasks.html')">المهام (18)</button>
@@ -48,6 +48,11 @@
             <button class="nav-button" onclick="navigateTo('earnings.html')">الأرباح</button>
             <button class="nav-button" onclick="navigateTo('fr.html')">الأصدقاء</button>
             <button class="nav-button" onclick="navigateTo('1win.html')">1win</button>
+        </div>
+
+        <!-- تنبيه مخصص لنفاذ الطاقة -->
+        <div id="energy-alert" class="energy-alert" style="display: none;">
+            لقد نفدت طاقتك! انتظر قليلًا لزيادة الطاقة.
         </div>
     </div>
 
