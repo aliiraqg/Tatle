@@ -43,6 +43,7 @@
             </div>
         </div>
 
+        <!-- أقسام التنقل السفلية -->
         <div class="navigation">
             <button class="nav-button" onclick="navigateTo('index.html')">الرئيسية</button>
             <button class="nav-button" onclick="navigateTo('earnings.html')">الأرباح</button>
@@ -51,6 +52,11 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // دالة التنقل بين الصفحات
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+    </script>
 </body>
 </html>
