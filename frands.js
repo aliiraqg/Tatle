@@ -31,3 +31,8 @@ function shareInviteLink() {
     // فتح واجهة مشاركة رابط الدعوة
     window.open(telegramShareUrl, "_blank");
 }
+
+// وظيفة التنقل إلى صفحات أخرى
+function navigateTo(page) {
+    window.location.href = page;
+}
