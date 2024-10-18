@@ -193,3 +193,8 @@ body {
         padding: 8px 10px;
     }
 }
+
+html, body {
+    touch-action: manipulation;
+    overflow: hidden;
+}
