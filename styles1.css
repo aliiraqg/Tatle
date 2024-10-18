@@ -185,3 +185,24 @@ body {
         padding: 8px;
     }
 }
+
+
+.invite-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.invite-button {
+    background-color: #1e1e30;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+.invite-button:hover {
+    background-color: #f0ad4e;
+}
