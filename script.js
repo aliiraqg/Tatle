@@ -5,12 +5,24 @@ const urlParams = new URLSearchParams(window.location.search);
 const userId = urlParams.get('userId');
 
 // تحديث النقاط عند النقر
-document.getElementById('clickable-character').addEventListener('click', function() {
+document.getElementById('clickable-character').addEventListener('click', async function() {
     points += 5; // إضافة النقاط عند كل نقرة
     document.getElementById('points').textContent = points;
 
-    // إرسال النقاط إلى قاعدة البيانات عبر Telegram Web App
-    Telegram.WebApp.sendData(JSON.stringify({ points: points }));  // إرسال النقاط للبوت
+    // إرسال النقاط إلى الخادم لتحديثها في قاعدة البيانات
+    try {
+        const response = await fetch('/updatePoints', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ userId: userId, points: points }),
+        });
+        const data = await response.json();
+        console.log('تم تحديث النقاط:', data);
+    } catch (error) {
+        console.error('حدث خطأ في تحديث النقاط:', error);
+    }
 });
 
 // جلب النقاط من قاعدة البيانات عند تحميل الصفحة
