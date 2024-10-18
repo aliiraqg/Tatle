@@ -11,7 +11,7 @@ document.getElementById('clickable-character').addEventListener('click', async f
 
     // إرسال النقاط إلى الخادم لتحديثها في قاعدة البيانات
     try {
-        const response = await fetch('https://nano-alis-projects-e389fa47.vercel.app/updatePoints', {
+        const response = await fetch('/updatePoints', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ document.getElementById('clickable-character').addEventListener('click', async f
 // جلب النقاط من قاعدة البيانات عند تحميل الصفحة
 async function fetchPoints() {
     try {
-        const response = await fetch(`https://nano-alis-projects-e389fa47.vercel.app/getUserPoints?userId=${userId}`);
+        const response = await fetch(`/getUserPoints?userId=${userId}`);
         const data = await response.json();
         points = data.points || 0;
         document.getElementById('points').textContent = points;
