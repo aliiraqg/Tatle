@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>سحب الأرباح</title>
+    <link rel="stylesheet" href="withdraw.css">
+</head>
+<body>
+    <div class="container">
+        <h1>سحب الأرباح</h1>
+        
+        <!-- زين كاش -->
+        <div class="withdrawal-option">
+            <img src="https://i.imgur.com/your-zain-cash-logo.png" alt="زين كاش">
+            <span>زين كاش</span>
+            <button onclick="selectOption('زين كاش')">اختر</button>
+        </div>
+
+        <!-- أسيا سيل -->
+        <div class="withdrawal-option">
+            <img src="https://i.imgur.com/your-asiacell-logo.png" alt="أسيا سيل">
+            <span>أسيا سيل</span>
+            <button onclick="selectOption('أسيا سيل')">اختر</button>
+        </div>
+
+        <!-- USDT -->
+        <div class="withdrawal-option">
+            <img src="https://i.imgur.com/your-usdt-logo.png" alt="USDT">
+            <span>USDT</span>
+            <button onclick="selectOption('USDT')">اختر</button>
+        </div>
+
+        <!-- فودافون كاش -->
+        <div class="withdrawal-option">
+            <img src="https://i.imgur.com/your-vodafone-cash-logo.png" alt="فودافون كاش">
+            <span>فودافون كاش</span>
+            <button onclick="selectOption('فودافون كاش')">اختر</button>
+        </div>
+
+        <!-- إدخال بيانات السحب -->
+        <input type="text" id="withdrawAmount" placeholder="أدخل المبلغ">
+        <input type="text" id="withdrawDetails" placeholder="أدخل رقم الحساب أو التفاصيل">
+        
+        <button class="submit" onclick="submitWithdrawal()">سحب الأرباح</button>
+        <p id="points-info" style="margin-top: 20px;"></p> <!-- لإظهار حالة النقاط -->
+    </div>
+
+    <script src="withdraw.js"></script>
+</body>
+</html>
