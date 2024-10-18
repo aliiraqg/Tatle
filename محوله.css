@@ -1,0 +1,140 @@
+/* إعدادات عامة */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden; /* منع التمرير */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    background-color: #202020;
+}
+
+.currency-container {
+    background-color: #7cb889;
+    padding: 2em;
+    border-radius: 20px;
+    margin: auto;
+    width: 90%;
+    text-align: center;
+}
+
+h1 {
+    color: white;
+    margin-bottom: 20px;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2em;
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.currency {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.box select {
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 10px;
+    border: none;
+    width: 100%;
+}
+
+.swap-button {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.swap-button button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+button.convert {
+    background-color: black;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2em;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+button.convert:hover {
+    background-color: #333;
+}
+
+.result {
+    color: white;
+    font-size: 1.5em;
+    margin-top: 15px;
+}
+
+/* تصميم الأقسام السفلية */
+.navigation {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    background-color: #1e1e30;
+    border-top: 2px solid #140c01;
+}
+
+.nav-button {
+    background-color: #1e1e30;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    flex-grow: 1;
+    margin: 0 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.nav-button:hover {
+    background-color: #f0ad4e;
+}
+
+@media (max-width: 768px) {
+    .input-box input {
+        font-size: 1em;
+    }
+
+    button.convert {
+        font-size: 1em;
+    }
+
+    .result {
+        font-size: 1.2em;
+    }
+
+    .nav-button {
+        padding: 8px 10px;
+        font-size: 14px;
+    }
+}
