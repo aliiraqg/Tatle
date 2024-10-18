@@ -207,26 +207,18 @@ body {
     -ms-user-select: none; /* لمتصفح Internet Explorer */
 }
 
-.energy-alert {
+
+
+.custom-alert {
     position: fixed;
-    bottom: 20px;
+    top: 20px;
     left: 50%;
     transform: translateX(-50%);
     background-color: rgba(0, 0, 0, 0.8);
     color: white;
-    padding: 15px 20px;
-    border-radius: 8px;
+    padding: 10px 20px;
+    border-radius: 5px;
     font-size: 16px;
     z-index: 1000;
     text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    animation: fadeInOut 3s ease-in-out;
-}
-
-/* تأثير ظهور واختفاء التنبيه */
-@keyframes fadeInOut {
-    0% { opacity: 0; transform: translateY(20px); }
-    10% { opacity: 1; transform: translateY(0); }
-    90% { opacity: 1; transform: translateY(0); }
-    100% { opacity: 0; transform: translateY(20px); }
 }
