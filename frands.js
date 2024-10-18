@@ -1,8 +1,8 @@
 // رابط الويب الذي سيتم نسخه (مثال لرابط التليجرام)
-const baseInviteUrl = "https://t.me/your_bot?start=";
+const baseInviteUrl = "https://t.me/Ndjshshshdhdhfbot?start=";
 
-// استرجاع userId (يجب تخصيصه لكل مستخدم)
-const userId = "123456"; // هنا نضع الـ userId الحقيقي للمستخدم
+// استرجاع userId من التطبيق أو قاعدة البيانات
+const userId = "123456"; // هنا يجب أن يكون userId الخاص بالمستخدم الحالي
 
 // نسخ رابط الدعوة إلى الحافظة
 function copyInviteLink() {
