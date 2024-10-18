@@ -1,60 +1,68 @@
-let points = 0; // النقاط الافتراضية
+// رابط الويب الذي سيتم نسخه (مثال لرابط التليجرام)
+const baseInviteUrl = "https://t.me/your_bot?start=";
 
-// التحقق من وجود Telegram WebApp
-if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
-    // الحصول على بيانات المستخدم من Telegram WebApp
-    const telegramData = Telegram.WebApp.initDataUnsafe;
-    const userId = telegramData.user?.id;  // معرف المستخدم
-    const username = telegramData.user?.username || telegramData.user?.first_name || 'اسم المستخدم الافتراضي'; // اسم المستخدم أو الاسم الأول
+// استرجاع userId (قد تحتاج إلى جلب userId من قاعدة البيانات أو من URL)
+const userId = "123456"; // يجب أن يتم تحديث هذا باستخدام userId الحقيقي للمستخدم
 
-    // التحقق من وجود userId
-    if (!userId) {
-        alert("لم يتم العثور على معرف المستخدم. تأكد من فتح التطبيق عبر تليجرام.");
-    } else {
-        // عرض اسم المستخدم في العنصر المحدد
-        document.getElementById('username').textContent = username;
+// قائمة الأصدقاء المدعوين (مثال على بيانات وهمية، سيتم استبدالها ببيانات حقيقية من قاعدة البيانات)
+const invitedFriends = [
+    { name: "صادق سلام عبد", pointsPerHour: 30 },
+    { name: "Um Rahaf", pointsPerHour: 50 }
+    // يمكن أن تكون القائمة فارغة إذا لم يتم دعوة أي أصدقاء
+];
 
-        // تحديث النقاط عند النقر على الشخصية
-        document.getElementById('clickable-character').addEventListener('click', async function() {
-            points += 5; // إضافة النقاط عند كل نقرة
-            document.getElementById('points').textContent = points;
-
-            // إرسال النقاط إلى الخادم عبر WebAppData
-            try {
-                const response = await fetch('http://localhost:3000/web_app_data', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ userId: userId, points: points })
-                });
-                const data = await response.json();
-                console.log('تم إرسال البيانات إلى الخادم:', { userId: userId, points: points });
-            } catch (error) {
-                console.error('حدث خطأ أثناء إرسال البيانات إلى الخادم:', error);
-            }
-        });
-
-        // عند تحميل الصفحة، تأكد من جلب النقاط الحالية للمستخدم (إذا كانت متاحة)
-        async function fetchPoints() {
-            try {
-                const response = await fetch(`http://localhost:3000/getUserPoints?userId=${userId}`);
-                const data = await response.json();
-                points = data.points || 0;  // تعيين النقاط المسترجعة أو 0 إذا لم تكن موجودة
-                document.getElementById('points').textContent = points;
-            } catch (error) {
-                console.error('خطأ في استرجاع النقاط:', error);
-            }
-        }
-
-        // استدعاء دالة استرجاع النقاط عند تحميل الصفحة
-        fetchPoints();
-    }
-} else {
-    console.error('Telegram WebApp غير متاح.');
+// نسخ رابط الدعوة
+function copyInviteLink() {
+    const inviteLink = baseInviteUrl + userId;
+    const inviteInput = document.getElementById('invite-link');
+    
+    // وضع الرابط في الحقل المخفي
+    inviteInput.value = inviteLink;
+    inviteInput.style.opacity = 1;
+    
+    // تحديد الرابط ونسخه
+    inviteInput.select();
+    inviteInput.setSelectionRange(0, 99999); // لأجهزة الموبايل
+    
+    // نسخ الرابط إلى الحافظة
+    document.execCommand("copy");
+    
+    // إخفاء الحقل بعد النسخ
+    inviteInput.style.opacity = 0;
+    
+    // عرض رسالة تأكيد
+    alert("تم نسخ رابط الدعوة: " + inviteLink);
 }
 
-// دالة التنقل بين الصفحات
+// وظيفة لعرض الأصدقاء المدعوين
+function displayInvitedFriends() {
+    const friendsListElement = document.getElementById('friends-list');
+    const noFriendsMessage = document.getElementById('no-friends-message');
+
+    if (invitedFriends.length > 0) {
+        // إخفاء رسالة "لم تقم بدعوة أي أصدقاء" إذا كان هناك أصدقاء
+        noFriendsMessage.style.display = "none";
+
+        invitedFriends.forEach(friend => {
+            const friendItem = document.createElement('div');
+            friendItem.classList.add('friend-item');
+
+            friendItem.innerHTML = `
+                <div class="friend-name">${friend.name}</div>
+                <div class="friend-reward">${friend.pointsPerHour}+ نقطة/الساعة</div>
+            `;
+            friendsListElement.appendChild(friendItem);
+        });
+    } else {
+        // إذا لم يكن هناك أصدقاء، إظهار رسالة "لم تقم بدعوة أي أصدقاء"
+        noFriendsMessage.style.display = "block";
+    }
+}
+
+// استدعاء دالة عرض الأصدقاء عند تحميل الصفحة
+displayInvitedFriends();
+
+// وظيفة التنقل
 function navigateTo(page) {
     window.location.href = page;
 }
