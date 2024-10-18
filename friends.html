@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1win Token</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="profile">
+                <img src="https://i.imgur.com/DZvdHZt.png" alt="Profile" class="profile-pic">
+                <div class="username-info">
+                    <span class="username">اسم المستخدم</span>
+                    <div class="level">1</div>
+                </div>
+            </div>
+            <div class="title">1win Token</div>
+        </div>
+
+        <!-- قسم الدعوات -->
+        <div class="invite-section">
+            <div class="invite-text">
+                ادعو صديقاً
+                <span>+1000</span>
+            </div>
+            <button class="invite-button" onclick="copyInviteLink()">دعوة صديق</button>
+        </div>
+
+        <!-- قائمة الأصدقاء المدعوين -->
+        <div class="friends-section">
+            <div class="friends-header">
+                <span>الأصدقاء</span>
+                <span id="friends-count">0</span>
+            </div>
+            <div class="friends-list" id="friends-list">
+                <!-- سيتم إضافة الأصدقاء المدعوين هنا -->
+                <p>لم يتم دعوة أي أصدقاء حتى الآن</p>
+            </div>
+        </div>
+
+        <!-- قسم المطالبة بالنقاط -->
+        <div class="claim-section">
+            <div class="claim-text">
+                <span id="points-available">هل تستطيع جمع 1000 نقطة؟</span>
+            </div>
+            <button class="claim-button" onclick="claimPoints()">المطالبة</button>
+        </div>
+
+        <!-- الأزرار السفلية -->
+        <div class="navigation">
+            <button class="nav-button" onclick="navigateTo('index.html')">الرئيسية</button>
+            <button class="nav-button" onclick="navigateTo('earnings.html')">الأرباح</button>
+            <button class="nav-button" onclick="navigateTo('friends.html')">الأصدقاء</button>
+            <button class="nav-button" onclick="navigateTo('1win.html')">1win</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
