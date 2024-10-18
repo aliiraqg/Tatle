@@ -1,8 +1,16 @@
 let points = 0; // النقاط الافتراضية
 
-// دالة التنقل بين الصفحات
+// دالة التنقل بين الصفحات مع تمرير userId
 function navigateTo(page) {
-    window.location.href = page;  // الانتقال إلى الصفحة المطلوبة
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('userId');
+    
+    if (userId) {
+        // الانتقال إلى الصفحة مع إرفاق userId في الرابط
+        window.location.href = `${page}?userId=${userId}`;
+    } else {
+        alert("لم يتم العثور على معرف المستخدم. تأكد من فتح التطبيق عبر تليجرام.");
+    }
 }
 
 // استرجاع userId من URL الخاص بالويب تليجرام
