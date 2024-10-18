@@ -9,9 +9,9 @@ document.getElementById('clickable-character').addEventListener('click', async f
     points += 5; // إضافة النقاط عند كل نقرة
     document.getElementById('points').textContent = points;
 
-    // إرسال النقاط إلى الخادم لتحديثها في قاعدة البيانات
+    // إرسال النقاط إلى الخادم المحلي لتحديثها في قاعدة البيانات
     try {
-        const response = await fetch('/updatePoints', {
+        const response = await fetch('http://localhost:3000/updatePoints', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ document.getElementById('clickable-character').addEventListener('click', async f
 // جلب النقاط من قاعدة البيانات عند تحميل الصفحة
 async function fetchPoints() {
     try {
-        const response = await fetch(`/getUserPoints?userId=${userId}`);
+        const response = await fetch(`http://localhost:3000/getUserPoints?userId=${userId}`);
         const data = await response.json();
         points = data.points || 0;
         document.getElementById('points').textContent = points;
