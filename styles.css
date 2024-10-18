@@ -103,13 +103,13 @@ body {
 }
 
 .character {
-    margin-top: 20px;
+    margin-top: 25px;
     display: flex;
     justify-content: center;
 }
 
 .character-img {
-    width: 240px; /* تكبير الصورة */
+    width: 290px; /* تكبير الصورة */
     cursor: pointer;
     transition: transform 0.2s ease;
     outline: none;
