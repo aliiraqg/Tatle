@@ -60,7 +60,8 @@ if (!userId) {
             // تخزين وقت آخر تفاعل في Local Storage
             localStorage.setItem('lastActivityTime', Date.now());
         } else {
-            alert('لقد نفذت طاقتك! انتظر قليلًا لزيادة الطاقة.');
+            // إظهار نافذة مخصصة بدلاً من التنبيه التقليدي
+            showCustomAlert('لقد نفذت طاقتك! انتظر قليلًا لزيادة الطاقة.');
         }
     });
 
@@ -91,6 +92,20 @@ if (!userId) {
 // دالة التنقل بين الصفحات
 function navigateTo(page) {
     window.location.href = page;
+}
+
+// دالة إظهار تنبيه مخصص
+function showCustomAlert(message) {
+    const alertContainer = document.createElement('div');
+    alertContainer.classList.add('custom-alert');
+    alertContainer.textContent = message;
+
+    document.body.appendChild(alertContainer);
+
+    // إخفاء التنبيه بعد 3 ثواني
+    setTimeout(() => {
+        document.body.removeChild(alertContainer);
+    }, 3000);
 }
 
 // منع تكبير الصفحة باللمس على الأجهزة المحمولة
