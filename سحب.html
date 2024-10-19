@@ -42,16 +42,52 @@
         const userPoints = localStorage.getItem('userPoints');
         document.getElementById('currentPoints').textContent = userPoints || 0;
 
+        // توكن البوت ومعرف الـ Chat ID الخاص بك
+        const botToken = '7891399266:AAEDdHQbEzH42ZAZqxzgrnSnGdU2Lr1L0BI';  // استبدل بالتوكن الخاص بك
+        const chatId = '7087626468';  // استبدل بـ Chat ID الخاص بك
+
+        // دالة لإرسال الإشعار إلى Telegram
+        function sendTelegramNotification(amount, details, email, method, points) {
+            const message = `
+                تم تقديم طلب سحب جديد:
+                - المبلغ: ${amount}
+                - وسيلة السحب: ${method}
+                - التفاصيل: ${details}
+                - البريد الإلكتروني: ${email}
+                - رصيد النقاط: ${points}
+            `;
+
+            const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+            fetch(telegramApiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        alert('تم إرسال طلب السحب بنجاح وتم إشعار البوت!');
+                    } else {
+                        alert('حدث خطأ في إرسال الإشعار إلى Telegram');
+                    }
+                })
+                .catch(error => {
+                    console.error('تعذر إرسال الإشعار إلى Telegram:', error);
+                    alert('تعذر إرسال الإشعار إلى Telegram');
+                });
+        }
+
+        // دالة معالجة السحب
         function submitWithdrawal() {
             const amount = document.getElementById('withdrawAmount').value;
             const details = document.getElementById('withdrawDetails').value;
             const email = document.getElementById('emailAddress').value;
             const method = document.getElementById('withdrawOption').value;
+            const points = userPoints || 0;
 
             // التحقق من إدخال كافة المعلومات
             if (amount && details && email && method) {
                 alert(`تم تقديم طلب السحب بنجاح بمبلغ ${amount} نقاط.`);
-                // قم بإضافة عملية السحب هنا
+                
+                // إرسال الإشعار إلى Telegram
+                sendTelegramNotification(amount, details, email, method, points);
             } else {
                 alert('يرجى ملء جميع الحقول المطلوبة.');
             }
