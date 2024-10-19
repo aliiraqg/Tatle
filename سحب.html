@@ -39,19 +39,36 @@
 
     <script>
         // استرجاع النقاط من LocalStorage وعرضها
-        const userPoints = localStorage.getItem('userPoints');
-        document.getElementById('currentPoints').textContent = userPoints || 0;
+        function updatePointsDisplay() {
+            const userPoints = localStorage.getItem('userPoints') || 0;
+            document.getElementById('currentPoints').textContent = userPoints;
+        }
+
+        // عرض النقاط عند تحميل الصفحة
+        updatePointsDisplay();
 
         function submitWithdrawal() {
-            const amount = document.getElementById('withdrawAmount').value;
+            const amount = parseInt(document.getElementById('withdrawAmount').value);
             const details = document.getElementById('withdrawDetails').value;
             const email = document.getElementById('emailAddress').value;
             const method = document.getElementById('withdrawOption').value;
 
+            let userPoints = parseInt(localStorage.getItem('userPoints') || 0);
+
             // التحقق من إدخال كافة المعلومات
             if (amount && details && email && method) {
-                alert(`تم تقديم طلب السحب بنجاح بمبلغ ${amount} نقاط.`);
-                // قم بإضافة عملية السحب هنا
+                if (userPoints >= amount) {
+                    // خصم النقاط
+                    userPoints -= amount;
+                    localStorage.setItem('userPoints', userPoints);
+
+                    // تحديث الرصيد الجديد في الصفحة
+                    updatePointsDisplay();
+
+                    alert(`تم تقديم طلب السحب بنجاح بمبلغ ${amount} نقاط.`);
+                } else {
+                    alert('لا تملك نقاط كافية لإتمام هذه العملية.');
+                }
             } else {
                 alert('يرجى ملء جميع الحقول المطلوبة.');
             }
