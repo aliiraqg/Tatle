@@ -66,6 +66,13 @@
             localStorage.setItem('points', points);
             document.getElementById('points').innerText = points;
         }
+
+        // يمكنك إضافة دالة لزيادة النقاط هنا كمثال
+        function addPoints(amount) {
+            let currentPoints = parseInt(localStorage.getItem('points')) || 0;
+            currentPoints += amount;
+            updatePoints(currentPoints);
+        }
     </script>
     <script src="script.js"></script>
 </body>
