@@ -2,9 +2,9 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>سحب الأرباح</title>
-    <link rel="stylesheet" href="سحب.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
@@ -15,47 +15,44 @@
             <p>رصيد النقاط الخاص بك: <span id="currentPoints">0</span></p>
         </div>
 
-        <!-- تحديد وسيلة السحب -->
-        <div class="input-box">
-            <label for="withdrawOption">اختر وسيلة السحب:</label>
-            <div class="custom-select">
-                <select id="withdrawOption" class="select-option">
-                    <option value="" disabled selected>اختر وسيلة السحب</option>
-                    <option value="زين كاش">زين كاش</option>
-                    <option value="أسيا سيل">أسيا سيل</option>
-                    <option value="USDT">USDT</option>
-                    <option value="فودافون كاش">فودافون كاش</option>
-                </select>
-            </div>
+        <!-- إدخال المبلغ ورقم الحساب -->
+        <div>
+            <label for="withdrawAmount">أدخل المبلغ:</label>
+            <input type="number" id="withdrawAmount" placeholder="أدخل المبلغ" required>
         </div>
 
-        <!-- إدخال المبلغ ورقم الحساب والبريد الإلكتروني -->
-        <input type="text" id="withdrawAmount" placeholder="أدخل المبلغ" required>
-        <input type="text" id="withdrawDetails" placeholder="أدخل رقم الحساب أو التفاصيل" required>
-        <input type="email" id="emailAddress" placeholder="أدخل بريدك الإلكتروني" required>
+        <!-- زر لسحب الرصيد -->
+        <button class="submit" id="submitWithdrawal">سحب الأرباح</button>
 
-        <button class="submit" onclick="submitWithdrawal()">سحب الأرباح</button>
+        <!-- رسالة النجاح أو الخطأ -->
+        <div id="message"></div>
     </div>
 
-  <script src="سحب.js"></script>
+    <script>
+        // دالة لاسترجاع النقاط من URL
+        function getQueryParameter(param) {
+            let urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
 
+        // استرجاع النقاط من URL
+        let points = parseInt(getQueryParameter('points'), 10);
+        if (points) {
+            document.getElementById('currentPoints').textContent = points;
+        }
 
+        // عند النقر على زر السحب
+        document.getElementById('submitWithdrawal').addEventListener('click', function () {
+            let withdrawAmount = parseInt(document.getElementById('withdrawAmount').value, 10);
 
-<span id="pointsDisplay">0</span>
-
-<script>
-    function getQueryParameter(param) {
-        let urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(param);
-    }
-
-    let points = getQueryParameter('points');
-    if (points) {
-        document.getElementById('pointsDisplay').textContent = points;
-    }
-</script>
-    
-
-
+            if (withdrawAmount <= points && withdrawAmount > 0) {
+                points -= withdrawAmount; // خصم المبلغ المسحوب من النقاط
+                document.getElementById('currentPoints').textContent = points;
+                document.getElementById('message').textContent = `تم سحب ${withdrawAmount} نقطة بنجاح!`;
+            } else {
+                document.getElementById('message').textContent = 'المبلغ غير صالح أو غير كافٍ.';
+            }
+        });
+    </script>
 </body>
 </html>
