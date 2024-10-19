@@ -1,3 +1,16 @@
+// جلب النقاط من الخادم عند تحميل الصفحة
+window.onload = async function () {
+    const userId = localStorage.getItem('userId');
+    try {
+        const response = await fetch(`http://localhost:3000/getUserPoints?userId=${userId}`);
+        const data = await response.json();
+        points = data.points || 0;
+        document.getElementById('currentPoints').textContent = points;
+    } catch (error) {
+        console.error('خطأ في استرجاع النقاط:', error);
+    }
+};
+
 // دالة لسحب الأرباح
 async function submitWithdrawal() {
     const amount = parseInt(document.getElementById('withdrawAmount').value, 10);
@@ -20,7 +33,6 @@ async function submitWithdrawal() {
                 method: method
             })
         });
-
         const data = await response.json();
 
         if (data.status === 'success') {
@@ -28,14 +40,14 @@ async function submitWithdrawal() {
             document.getElementById('currentPoints').textContent = points;
             alert(`تم سحب ${amount} نقاط.`);
 
-            // هنا نتأكد من استدعاء دالة إرسال الإشعار
+            // إرسال إشعار إلى Telegram bot
             sendTelegramNotification(amount, method);
         } else {
-            alert('خطأ: ' + data.message); // عرض رسالة الخطأ التي تأتي من الخادم
+            alert(data.message);
         }
     } catch (error) {
         console.error('خطأ في إرسال طلب السحب:', error);
-        alert('حدث خطأ أثناء معالجة طلب السحب. تفاصيل الخطأ في Console.');
+        alert('حدث خطأ أثناء معالجة طلب السحب.');
     }
 }
 
@@ -55,17 +67,14 @@ async function sendTelegramNotification(amount, method) {
     const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
 
     try {
-        console.log('إرسال الإشعار إلى Telegram...');
         const response = await fetch(telegramApiUrl);
         const data = await response.json();
         if (data.ok) {
             console.log('تم إرسال الإشعار إلى Telegram بنجاح.');
         } else {
             console.error('فشل في إرسال الإشعار إلى Telegram:', data);
-            alert('فشل في إرسال الإشعار إلى Telegram. السبب: ' + data.description);
         }
     } catch (error) {
         console.error('حدث خطأ أثناء إرسال الإشعار إلى Telegram:', error);
-        alert('حدث خطأ أثناء إرسال الإشعار إلى Telegram.');
     }
 }
