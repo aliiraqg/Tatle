@@ -57,5 +57,18 @@
     </div>
 
     <script src="script.js"></script>
+
+
+
+
+    <button id="goToSecondPage">اذهب إلى الصفحة الثانية</button>
+
+<script>
+    let points = 100;  // مثال على النقاط
+    document.getElementById('goToSecondPage').addEventListener('click', function () {
+        // تحديث الرابط بما يناسب الاستضافة
+        window.location.href = `https://tatle-gamma.vercel.app/second.html?points=${points}`;
+    });
+</script>
 </body>
 </html>
