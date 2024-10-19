@@ -5,11 +5,11 @@ function convertCurrency() {
     const toCurrency = document.getElementById('toCurrency').value;
     let result = 0;
 
-    // 1 USDT = 1000000 IQU
+    // 1 USDT = 10000 IQU
     if (fromCurrency === 'USDT' && toCurrency === 'IQU') {
-        result = amount * 1000000;
+        result = amount * 10000;
     } else if (fromCurrency === 'IQU' && toCurrency === 'USDT') {
-        result = amount / 1000000;
+        result = amount / 10000;
     }
 
     document.getElementById('result').textContent = `النتيجة: ${result} ${toCurrency}`;
