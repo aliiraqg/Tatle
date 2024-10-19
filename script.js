@@ -1,45 +1,69 @@
-let points = 0; // النقاط الافتراضية
-let energy = 500; // الطاقة الافتراضية
-const maxEnergy = 500; // الحد الأقصى للطاقة
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const app = express();
+const port = 3000;
 
-// استرجاع userId من التخزين المحلي
-const userId = localStorage.getItem('userId');
+app.use(cors());
+app.use(express.json());
 
-// إذا كان userId موجود، جلب النقاط من الخادم
-async function fetchPoints() {
+// الاتصال بقاعدة بيانات MongoDB
+mongoose.connect('mongodb+srv://alifakarr:Aliliw>
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}).then(() => {
+    console.log('تم الاتصال بقاعدة البيانات Mong>
+}).catch((err) => {
+    console.error('خطأ في الاتصال بقاعدة البيانا>
+});
+
+// إنشاء مخطط المستخدم
+const userSchema = new mongoose.Schema({
+    userId: { type: String, required: true, uniq>
+    points: { type: Number, default: 0 }
+});
+
+// إنشاء نموذج المستخدم
+const User = mongoose.model('User', userSchema);
+
+// API لحفظ النقاط
+app.post('/updatePoints', async (req, res) => {
+    const { userId, points } = req.body;
+
     try {
-        const response = await fetch(`http://localhost:3000/getUserPoints?userId=${userId}`);
-        const data = await response.json();
-        points = data.points || 0;
-        document.getElementById('points').textContent = points;
-    } catch (error) {
-        console.error('خطأ في استرجاع النقاط:', error);
+        const user = await User.findOneAndUpdate(
+            { userId: userId },
+            { points: points },
+            { upsert: true, new: true }
+        );
+        res.json({ success: true, points: user.p>
+    } catch (err) {
+        console.error('خطأ في تحديث النقاط:', er>
+        res.status(500).json({ error: 'خطأ في ال>
     }
-}
+});
 
-// استدعاء الدالة عند تحميل الصفحة
-window.onload = fetchPoints;
+// API لاسترجاع النقاط
+app.get('/getUserPoints', async (req, res) => {
 
-// عند النقر على الشخصية لزيادة النقاط
-document.getElementById('clickable-character').addEventListener('click', async function () {
-    if (energy > 0) {
-        points += 5; // إضافة النقاط
-        energy--; // تقليل الطاقة
-        document.getElementById('points').textContent = points;
 
-        try {
-            const response = await fetch('http://localhost:3000/web_app_data', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ userId: userId, points: points })
-            });
-            console.log('تم إرسال البيانات إلى الخادم:', { userId: userId, points: points });
-        } catch (error) {
-            console.error('حدث خطأ أثناء إرسال البيانات إلى الخادم:', error);
+// API لاسترجاع النقاط
+app.get('/getUserPoints', async (req, res) => {
+    const { userId } = req.query;
+
+    try {
+        const user = await User.findOne({ userId>
+        if (user) {
+            res.json({ points: user.points });
+        } else {
+            res.json({ points: 0 });
         }
-    } else {
-        alert('لقد نفدت طاقتك! انتظر قليلًا لزيادة الطاقة.');
+    } catch (err) {
+        console.error('خطأ في استرجاع النقاط:', >
+        res.status(500).json({ error: 'خطأ في ال>
     }
+});
+
+app.listen(port, () => {
+    console.log(`الخادم يعمل على http://localhos>
 });
