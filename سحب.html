@@ -10,10 +10,12 @@
     <div class="container">
         <h1>سحب الأرباح</h1>
 
+        <!-- عرض رصيد النقاط الحالي -->
         <div class="balance">
             <p>رصيد النقاط الخاص بك: <span id="currentPoints">0</span></p>
         </div>
 
+        <!-- تحديد وسيلة السحب -->
         <div class="input-box">
             <label for="withdrawOption">اختر وسيلة السحب:</label>
             <div class="custom-select">
@@ -27,6 +29,7 @@
             </div>
         </div>
 
+        <!-- إدخال المبلغ ورقم الحساب والبريد الإلكتروني -->
         <input type="text" id="withdrawAmount" placeholder="أدخل المبلغ" required>
         <input type="text" id="withdrawDetails" placeholder="أدخل رقم الحساب أو التفاصيل" required>
         <input type="email" id="emailAddress" placeholder="أدخل بريدك الإلكتروني" required>
@@ -35,37 +38,25 @@
     </div>
 
     <script>
-        // تحميل النقاط من localStorage عند تحميل الصفحة
-        window.onload = function() {
-            let points = localStorage.getItem('points') || 0;
-            document.getElementById('currentPoints').innerText = points;
-        };
+        // تحميل النقاط من LocalStorage عند تحميل الصفحة
+        let points = localStorage.getItem('points') ? parseInt(localStorage.getItem('points')) : 0;
+        document.getElementById('currentPoints').innerText = points;
 
+        // تنفيذ عملية السحب
         function submitWithdrawal() {
             let withdrawAmount = parseInt(document.getElementById('withdrawAmount').value);
-            let currentPoints = parseInt(localStorage.getItem('points')) || 0;
 
-            if (withdrawAmount > currentPoints) {
-                alert("ليس لديك نقاط كافية للسحب.");
+            if (withdrawAmount > points) {
+                alert("ليس لديك نقاط كافية للسحب!");
                 return;
             }
 
-            // تحديث النقاط بعد السحب
-            currentPoints -= withdrawAmount;
-            localStorage.setItem('points', currentPoints);
-            document.getElementById('currentPoints').innerText = currentPoints;
-
-            // تحديث النقاط في الصفحة الأولى
-            if (window.opener) {
-                let mainPagePoints = window.opener.document.getElementById('points');
-                if (mainPagePoints) {
-                    mainPagePoints.innerText = currentPoints;
-                }
-            }
-
-            alert("تم سحب " + withdrawAmount + " نقطة بنجاح.");
+            // تقليل النقاط بعد السحب
+            points -= withdrawAmount;
+            localStorage.setItem('points', points); // تحديث النقاط في LocalStorage
+            document.getElementById('currentPoints').innerText = points;
+            alert("تمت عملية السحب بنجاح!");
         }
     </script>
-    <script src="سحب.js"></script>
 </body>
 </html>
