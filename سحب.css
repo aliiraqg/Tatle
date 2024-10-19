@@ -10,7 +10,8 @@ html, body {
     height: 100%;
     background-color: #f7f7f7;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -19,58 +20,81 @@ html, body {
     padding: 20px;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 400px;
+    width: 85%;
+    max-width: 350px;
     text-align: center;
+    margin-bottom: 70px;
 }
 
 h1 {
     color: #333;
-    margin-bottom: 20px;
+    font-size: 1.8em;
+    margin-bottom: 15px;
 }
 
-.withdrawal-option {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.input-box {
+    margin-bottom: 15px;
+}
+
+.custom-select {
+    position: relative;
+    width: 100%;
+}
+
+.custom-select select {
+    width: 100%;
     padding: 10px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 2px solid #ececec;
+    background-color: #ffffff;
+    appearance: none;
+}
+
+.custom-select::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    border: 6px solid transparent;
+    border-top-color: #333;
+}
+
+.select-option {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #fff;
     border: 2px solid #ececec;
     border-radius: 10px;
-    margin-bottom: 10px;
-    transition: background-color 0.3s;
 }
 
-.withdrawal-option:hover {
-    background-color: #f0f0f0;
+/* إضافة الصور إلى القائمة المنسدلة */
+select option[data-icon] {
+    padding-left: 40px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    background-size: 30px;
 }
 
-.withdrawal-option img {
-    width: 50px;
-    height: 50px;
+option[value="زين كاش"] {
+    background-image: url("https://b.top4top.io/p_3213ugktq0.jpg");
 }
 
-.withdrawal-option span {
-    flex-grow: 1;
-    margin-left: 15px;
-    font-size: 18px;
-    font-weight: bold;
+option[value="أسيا سيل"] {
+    background-image: url("https://c.top4top.io/p_32130l5rd0.jpg");
 }
 
-.withdrawal-option button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 16px;
+option[value="USDT"] {
+    background-image: url("https://g.top4top.io/p_32130dfqw0.png");
 }
 
-.withdrawal-option button:hover {
-    background-color: #45a049;
+option[value="فودافون كاش"] {
+    background-image: url("https://d.top4top.io/p_3213ufebn1.jpg");
 }
 
-input[type="text"] {
+input[type="text"], input[type="email"] {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
@@ -83,14 +107,58 @@ button.submit {
     width: 100%;
     background-color: #333;
     color: white;
-    padding: 15px;
+    padding: 12px;
     border: none;
     border-radius: 10px;
-    font-size: 18px;
+    font-size: 16px;
     cursor: pointer;
-    margin-top: 15px;
+    margin-top: 12px;
 }
 
 button.submit:hover {
     background-color: #555;
+}
+
+/* تصميم الأقسام السفلية */
+.navigation {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    background-color: #1e1e30;
+    border-top: 2px solid #140c01;
+    z-index: 1000;
+}
+
+.nav-button {
+    background-color: #1e1e30;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    flex-grow: 1;
+    margin: 0 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.nav-button:hover {
+    background-color: #f0ad4e;
+}
+
+@media (max-width: 768px) {
+    .nav-button {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+
+    input[type="text"], input[type="email"], button.submit {
+        font-size: 14px;
+    }
 }
