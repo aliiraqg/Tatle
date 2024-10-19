@@ -39,7 +39,7 @@ function navigateTo(page) {
 
 // إضافة مستمعي الأحداث للأقسام السفلية
 document.querySelector('.nav-button-home').addEventListener('click', function() {
-    navigateTo('index.html');  // الانتقال إلى الصفحة الرئيسية
+    navigateTo('اول.html');  // الانتقال إلى الصفحة الرئيسية
 });
 
 document.querySelector('.nav-button-earnings').addEventListener('click', function() {
