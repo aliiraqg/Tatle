@@ -35,7 +35,7 @@
 
         <div class="task-section">
             <div class="energy">
-                <span>500</span> / 500 الطاقة
+                <span id="energy">500</span> / 500 الطاقة
             </div>
             <div class="tasks">
                 <button class="task-button" onclick="navigateTo('tasks.html')">المهام (18)</button>
@@ -56,6 +56,33 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        let points = parseInt(localStorage.getItem('userPoints'), 10) || 0;
+        let energy = 500;
+
+        // استرجاع النقاط عند تحميل الصفحة
+        document.getElementById('points').textContent = points;
+
+        // تحديث النقاط عند النقر على الشخصية
+        document.getElementById('clickable-character').addEventListener('click', function () {
+            if (energy > 0) {
+                points += 1; // زيادة النقاط
+                document.getElementById('points').textContent = points;
+
+                // تخزين النقاط في LocalStorage
+                localStorage.setItem('userPoints', points);
+            } else {
+                document.getElementById('energy-alert').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('energy-alert').style.display = 'none';
+                }, 3000);
+            }
+        });
+
+        // دالة التنقل بين الصفحات
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+    </script>
 </body>
 </html>
