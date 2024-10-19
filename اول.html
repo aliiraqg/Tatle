@@ -42,7 +42,6 @@
             </div>
         </div>
 
-        <!-- أقسام التنقل السفلية -->
         <div class="navigation">
             <button class="nav-button" onclick="navigateTo('اول.html')">الرئيسية</button>
             <button class="nav-button" onclick="navigateTo('محوله.html')">الأرباح</button>
@@ -50,12 +49,24 @@
             <button class="nav-button" onclick="navigateTo('سحب.html')">سحب الارباح</button>
         </div>
 
-        <!-- تنبيه مخصص لنفاذ الطاقة -->
         <div id="energy-alert" class="energy-alert" style="display: none;">
             لقد نفدت طاقتك! انتظر قليلًا لزيادة الطاقة.
         </div>
     </div>
 
+    <script>
+        // تحميل النقاط من localStorage عند تحميل الصفحة
+        window.onload = function() {
+            let points = localStorage.getItem('points') || 0;
+            document.getElementById('points').innerText = points;
+        };
+
+        // تحديث النقاط في localStorage عند الحاجة
+        function updatePoints(points) {
+            localStorage.setItem('points', points);
+            document.getElementById('points').innerText = points;
+        }
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
