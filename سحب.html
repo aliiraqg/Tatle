@@ -37,6 +37,25 @@
         <button class="submit" onclick="submitWithdrawal()">سحب الأرباح</button>
     </div>
 
-    <script src="سحب.js"></script>
+  <script src="سحب.js"></script>
+
+
+
+<span id="pointsDisplay">0</span>
+
+<script>
+    function getQueryParameter(param) {
+        let urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    let points = getQueryParameter('points');
+    if (points) {
+        document.getElementById('pointsDisplay').textContent = points;
+    }
+</script>
+    
+
+
 </body>
 </html>
