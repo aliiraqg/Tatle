@@ -39,8 +39,8 @@
 
     <script>
         // استرجاع النقاط من LocalStorage وعرضها
-        const userPoints = localStorage.getItem('userPoints');
-        document.getElementById('currentPoints').textContent = userPoints || 0;
+        let userPoints = parseInt(localStorage.getItem('userPoints'), 10) || 0;
+        document.getElementById('currentPoints').textContent = userPoints;
 
         // توكن البوت ومعرف الـ Chat ID الخاص بك
         const botToken = '7891399266:AAEDdHQbEzH42ZAZqxzgrnSnGdU2Lr1L0BI';  // استبدل بالتوكن الخاص بك
@@ -54,7 +54,7 @@
                 - وسيلة السحب: ${method}
                 - التفاصيل: ${details}
                 - البريد الإلكتروني: ${email}
-                - رصيد النقاط: ${points}
+                - رصيد النقاط المتبقي: ${points}
             `;
 
             const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
@@ -76,18 +76,28 @@
 
         // دالة معالجة السحب
         function submitWithdrawal() {
-            const amount = document.getElementById('withdrawAmount').value;
+            const amount = parseInt(document.getElementById('withdrawAmount').value, 10);
             const details = document.getElementById('withdrawDetails').value;
             const email = document.getElementById('emailAddress').value;
             const method = document.getElementById('withdrawOption').value;
-            const points = userPoints || 0;
 
             // التحقق من إدخال كافة المعلومات
             if (amount && details && email && method) {
-                alert(`تم تقديم طلب السحب بنجاح بمبلغ ${amount} نقاط.`);
-                
-                // إرسال الإشعار إلى Telegram
-                sendTelegramNotification(amount, details, email, method, points);
+                if (amount > userPoints) {
+                    alert('المبلغ الذي ترغب في سحبه أكبر من رصيد نقاطك المتاح.');
+                } else {
+                    // إنقاص المبلغ من رصيد المستخدم
+                    userPoints -= amount;
+                    document.getElementById('currentPoints').textContent = userPoints;
+
+                    // تحديث LocalStorage برصيد النقاط الجديد
+                    localStorage.setItem('userPoints', userPoints);
+
+                    // إرسال الإشعار إلى Telegram
+                    sendTelegramNotification(amount, details, email, method, userPoints);
+
+                    alert(`تم تقديم طلب السحب بنجاح بمبلغ ${amount} نقاط.`);
+                }
             } else {
                 alert('يرجى ملء جميع الحقول المطلوبة.');
             }
