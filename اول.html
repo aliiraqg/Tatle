@@ -1,61 +1,123 @@
-// النقاط الافتراضية والطاقة
-let points = 0;
-let energy = 500;
-const maxEnergy = 500; // الحد الأقصى للطاقة
-const energyIncreaseInterval = 5 * 1000; // زيادة الطاقة كل 5 ثوانٍ
-const energyIncreaseAmount = 1; // كمية الطاقة التي تضاف كل 5 ثوانٍ
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>عدن وربح</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="profile">
+                <img src="https://g.top4top.io/p_3213hdy7h0.gif" alt="Profile" class="profile-pic">
+                <div class="username-info">
+                    <span class="username" id="username">أنت الأفضل</span>
+                    <div class="level"></div>
+                </div>
+            </div>
+            <div class="title">عدن وكسب </div>
+        </div>
 
-// استرجاع النقاط والطاقة من LocalStorage
-if (localStorage.getItem('userPoints')) {
-    points = parseInt(localStorage.getItem('userPoints'), 10);
-}
-if (localStorage.getItem('userEnergy')) {
-    energy = parseInt(localStorage.getItem('userEnergy'), 10);
-}
+        <div class="stats">
+            <div class="token-info">
+                <img src="https://g.top4top.io/p_3213e26ly0.png" alt="Token Icon" class="token-icon">
+                <div class="points-count" id="points">0</div>
+            </div>
+            <div class="earn-rate">
+                <span class="income"></span>  اربح/
+                <span class="clicks">1 النقرة</span>
+            </div>
+        </div>
 
-// تحديث عرض النقاط والطاقة في الصفحة
-document.getElementById('points').textContent = points;
-document.querySelector('.energy span').textContent = energy;
+        <div class="character">
+            <img src="https://i.imgur.com/DZvdHZt.png" alt="Cat Character" class="character-img animated" id="clickable-character">
+        </div>
 
-// إضافة نقاط عند النقر على الشخصية
-document.getElementById('clickable-character').addEventListener('click', () => {
-    if (energy > 0) {
-        points += 5; // زيادة النقاط
-        energy--; // تقليل الطاقة
+        <div class="task-section">
+            <div class="energy">
+                <span>500</span> / 500 الطاقة
+            </div>
+            <div class="tasks">
+                <button class="task-button" onclick="navigateTo('tasks.html')">المهام (18)</button>
+            </div>
+        </div>
+
+        <!-- أقسام التنقل السفلية -->
+        <div class="navigation">
+            <button class="nav-button" onclick="navigateTo('اول.html')">الرئيسية</button>
+            <button class="nav-button" onclick="navigateTo('محوله.html')">الأرباح</button>
+            <button class="nav-button" onclick="navigateTo('fr.html')">الأصدقاء</button>
+            <button class="nav-button" onclick="navigateTo('سحب.html')">سحب الارباح</button>
+        </div>
+
+        <!-- تنبيه مخصص لنفاذ الطاقة -->
+        <div id="energy-alert" class="energy-alert" style="display: none;">
+            لقد نفدت طاقتك! انتظر قليلًا لزيادة الطاقة.
+        </div>
+    </div>
+
+    <script>
+        let points = 0;
+        let energy = 500; // الطاقة الافتراضية
+        const maxEnergy = 500;
+        const energyIncreaseInterval = 5 * 1000;
+        const energyIncreaseAmount = 1;
+
+        // استرجاع userId من LocalStorage أو إنشاء واحد جديد
+        let userId = localStorage.getItem('userId');
+        if (!userId) {
+            userId = `user_${new Date().getTime()}`; // إنشاء معرف جديد بناءً على الوقت الحالي
+            localStorage.setItem('userId', userId); // تخزين userId الجديد
+        }
+
+        // استرجاع النقاط والطاقة من LocalStorage إذا كانت موجودة
+        points = parseInt(localStorage.getItem('userPoints')) || 0;
+        energy = parseInt(localStorage.getItem('userEnergy')) || energy;
+
+        // تحديث عرض النقاط والطاقة في الصفحة
         document.getElementById('points').textContent = points;
         document.querySelector('.energy span').textContent = energy;
 
-        // حفظ النقاط والطاقة في LocalStorage
-        localStorage.setItem('userPoints', points);
-        localStorage.setItem('userEnergy', energy);
-    } else {
-        showCustomAlert('لقد نفذت طاقتك! انتظر قليلًا لزيادة الطاقة.');
-    }
-});
+        // عند النقر على الشخصية، تزداد النقاط
+        document.getElementById('clickable-character').addEventListener('click', () => {
+            if (energy > 0) {
+                points += 5; // زيادة النقاط
+                energy--; // تقليل الطاقة
+                document.getElementById('points').textContent = points;
+                document.querySelector('.energy span').textContent = energy;
 
-// زيادة الطاقة كل 5 ثوانٍ
-setInterval(function () {
-    if (energy < maxEnergy) {
-        energy += energyIncreaseAmount;
-        document.querySelector('.energy span').textContent = energy;
-        localStorage.setItem('userEnergy', energy); // تحديث الطاقة في LocalStorage
-    }
-}, energyIncreaseInterval);
+                // حفظ النقاط والطاقة في LocalStorage
+                localStorage.setItem('userPoints', points);
+                localStorage.setItem('userEnergy', energy);
+            } else {
+                showCustomAlert('لقد نفذت طاقتك! انتظر قليلًا لزيادة الطاقة.');
+            }
+        });
 
-// دالة إظهار تنبيه مخصص
-function showCustomAlert(message) {
-    const alertContainer = document.createElement('div');
-    alertContainer.classList.add('custom-alert');
-    alertContainer.textContent = message;
+        // زيادة الطاقة كل 5 ثوانٍ
+        setInterval(function () {
+            if (energy < maxEnergy) {
+                energy++;
+                document.querySelector('.energy span').textContent = energy;
+                localStorage.setItem('userEnergy', energy); // تحديث الطاقة في LocalStorage
+            }
+        }, energyIncreaseInterval);
 
-    document.body.appendChild(alertContainer);
+        function showCustomAlert(message) {
+            const alertContainer = document.createElement('div');
+            alertContainer.classList.add('custom-alert');
+            alertContainer.textContent = message;
 
-    setTimeout(() => {
-        document.body.removeChild(alertContainer);
-    }, 3000);
-}
+            document.body.appendChild(alertContainer);
 
-// دالة التنقل بين الصفحات
-function navigateTo(page) {
-    window.location.href = page;
-}
+            setTimeout(() => {
+                document.body.removeChild(alertContainer);
+            }, 3000);
+        }
+
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+    </script>
+</body>
+</html>
