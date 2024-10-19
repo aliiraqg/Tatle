@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>سحب الأرباح</title>
     <link rel="stylesheet" href="سحب.css">
@@ -14,29 +15,45 @@
             <p>رصيد النقاط الخاص بك: <span id="currentPoints">0</span></p>
         </div>
 
-        <!-- إدخال المبلغ ورقم الحساب -->
-        <input type="number" id="withdrawAmount" placeholder="أدخل المبلغ" required>
+        <!-- تحديد وسيلة السحب -->
+        <div class="input-box">
+            <label for="withdrawOption">اختر وسيلة السحب:</label>
+            <div class="custom-select">
+                <select id="withdrawOption" class="select-option">
+                    <option value="" disabled selected>اختر وسيلة السحب</option>
+                    <option value="زين كاش">زين كاش</option>
+                    <option value="أسيا سيل">أسيا سيل</option>
+                    <option value="USDT">USDT</option>
+                    <option value="فودافون كاش">فودافون كاش</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- إدخال المبلغ ورقم الحساب والبريد الإلكتروني -->
+        <input type="text" id="withdrawAmount" placeholder="أدخل المبلغ" required>
         <input type="text" id="withdrawDetails" placeholder="أدخل رقم الحساب أو التفاصيل" required>
+        <input type="email" id="emailAddress" placeholder="أدخل بريدك الإلكتروني" required>
 
         <button class="submit" onclick="submitWithdrawal()">سحب الأرباح</button>
     </div>
 
     <script>
-        // استرجاع النقاط من LocalStorage
-        let points = parseInt(localStorage.getItem('userPoints'), 10) || 0;
-        document.getElementById('currentPoints').textContent = points;
+        // استرجاع النقاط من LocalStorage وعرضها
+        const userPoints = localStorage.getItem('userPoints');
+        document.getElementById('currentPoints').textContent = userPoints || 0;
 
-        // دالة لمعالجة طلب السحب
         function submitWithdrawal() {
-            const amount = parseInt(document.getElementById('withdrawAmount').value, 10);
+            const amount = document.getElementById('withdrawAmount').value;
+            const details = document.getElementById('withdrawDetails').value;
+            const email = document.getElementById('emailAddress').value;
+            const method = document.getElementById('withdrawOption').value;
 
-            if (amount && amount <= points) {
-                points -= amount; // خصم النقاط
-                localStorage.setItem('userPoints', points); // تحديث النقاط في LocalStorage
-                document.getElementById('currentPoints').textContent = points;
-                alert(`تم سحب ${amount} نقاط بنجاح!`);
+            // التحقق من إدخال كافة المعلومات
+            if (amount && details && email && method) {
+                alert(`تم تقديم طلب السحب بنجاح بمبلغ ${amount} نقاط.`);
+                // قم بإضافة عملية السحب هنا
             } else {
-                alert('المبلغ الذي ترغب في سحبه أكبر من رصيد نقاطك المتاح.');
+                alert('يرجى ملء جميع الحقول المطلوبة.');
             }
         }
     </script>
