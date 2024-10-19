@@ -1,39 +1,28 @@
-// استرجاع النقاط من LocalStorage وعرضها في صفحة السحب
-let points = localStorage.getItem('userPoints') || 0;
-points = parseInt(points, 10);
-
-// تحديث عرض النقاط في الصفحة
-document.getElementById('currentPoints').textContent = points;
+// جلب النقاط من الخادم عند تحميل الصفحة
+window.onload = async function () {
+    const userId = localStorage.getItem('userId');
+    try {
+        const response = await fetch(`http://localhost:3000/getUserPoints?userId=${userId}`);
+        const data = await response.json();
+        points = data.points || 0;
+        document.getElementById('currentPoints').textContent = points;
+    } catch (error) {
+        console.error('خطأ في استرجاع النقاط:', error);
+    }
+};
 
 // دالة لسحب الأرباح
-function submitWithdrawal() {
+async function submitWithdrawal() {
     const amount = parseInt(document.getElementById('withdrawAmount').value, 10);
-    const details = document.getElementById('withdrawDetails').value;
-    const email = document.getElementById('emailAddress').value;
     const method = document.getElementById('withdrawOption').value;
 
-    // التحقق من أن جميع الحقول مملوءة
-    if (!amount || !details || !email || !method) {
-        alert('يرجى ملء جميع الحقول المطلوبة.');
-        return;
-    }
-
-    // التحقق من أن المستخدم يملك نقاط كافية
     if (amount > points) {
         alert('لا تملك نقاط كافية لإتمام هذه العملية.');
         return;
     }
 
-    // خصم المبلغ من النقاط
-    points -= amount;
-    localStorage.setItem('userPoints', points);
-
-    // تحديث عرض الرصيد الجديد في الصفحة
-    document.getElementById('currentPoints').textContent = points;
-
-    // إرسال بيانات السحب إلى الخادم
     try {
-        fetch('http://localhost:3000/withdraw', {
+        const response = await fetch('http://localhost:3000/withdraw', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -41,22 +30,20 @@ function submitWithdrawal() {
             body: JSON.stringify({
                 userId: localStorage.getItem('userId'),
                 amount: amount,
-                method: method,
-                details: details,
-                email: email
+                method: method
             })
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('تم إرسال طلب السحب:', data);
-            alert(`تم تقديم طلب السحب بنجاح بمبلغ ${amount} نقاط.`);
-        })
-        .catch(error => {
-            console.error('حدث خطأ أثناء إرسال طلب السحب:', error);
-            alert('حدث خطأ أثناء إرسال طلب السحب.');
         });
+        const data = await response.json();
+
+        if (data.status === 'success') {
+            points -= amount;
+            document.getElementById('currentPoints').textContent = points;
+            alert(`تم سحب ${amount} نقاط.`);
+        } else {
+            alert(data.message);
+        }
     } catch (error) {
-        console.error('حدث خطأ أثناء معالجة طلب السحب:', error);
+        console.error('خطأ في إرسال طلب السحب:', error);
         alert('حدث خطأ أثناء معالجة طلب السحب.');
     }
 }
