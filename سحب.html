@@ -1,62 +1,42 @@
-// استرجاع النقاط من LocalStorage وعرضها في صفحة السحب
-let points = localStorage.getItem('userPoints') || 0;
-points = parseInt(points, 10);
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>سحب الأرباح</title>
+    <link rel="stylesheet" href="سحب.css">
+</head>
+<body>
+    <div class="container">
+        <h1>سحب الأرباح</h1>
 
-// تحديث عرض النقاط في الصفحة
-document.getElementById('currentPoints').textContent = points;
+        <!-- عرض رصيد النقاط الحالي -->
+        <div class="balance">
+            <p>رصيد النقاط الخاص بك: <span id="currentPoints">0</span></p>
+        </div>
 
-// دالة لسحب الأرباح
-function submitWithdrawal() {
-    const amount = parseInt(document.getElementById('withdrawAmount').value, 10);
-    const details = document.getElementById('withdrawDetails').value;
-    const email = document.getElementById('emailAddress').value;
-    const method = document.getElementById('withdrawOption').value;
+        <!-- تحديد وسيلة السحب -->
+        <div class="input-box">
+            <label for="withdrawOption">اختر وسيلة السحب:</label>
+            <div class="custom-select">
+                <select id="withdrawOption" class="select-option">
+                    <option value="" disabled selected>اختر وسيلة السحب</option>
+                    <option value="زين كاش">زين كاش</option>
+                    <option value="أسيا سيل">أسيا سيل</option>
+                    <option value="USDT">USDT</option>
+                    <option value="فودافون كاش">فودافون كاش</option>
+                </select>
+            </div>
+        </div>
 
-    // التحقق من أن جميع الحقول مملوءة
-    if (!amount || !details || !email || !method) {
-        alert('يرجى ملء جميع الحقول المطلوبة.');
-        return;
-    }
+        <!-- إدخال المبلغ ورقم الحساب والبريد الإلكتروني -->
+        <input type="text" id="withdrawAmount" placeholder="أدخل المبلغ" required>
+        <input type="text" id="withdrawDetails" placeholder="أدخل رقم الحساب أو التفاصيل" required>
+        <input type="email" id="emailAddress" placeholder="أدخل بريدك الإلكتروني" required>
 
-    // التحقق من أن المستخدم يملك نقاط كافية
-    if (amount > points) {
-        alert('لا تملك نقاط كافية لإتمام هذه العملية.');
-        return;
-    }
+        <button class="submit" onclick="submitWithdrawal()">سحب الأرباح</button>
+    </div>
 
-    // خصم المبلغ من النقاط
-    points -= amount;
-    localStorage.setItem('userPoints', points);
-
-    // تحديث عرض الرصيد الجديد في الصفحة
-    document.getElementById('currentPoints').textContent = points;
-
-    // إرسال بيانات السحب إلى الخادم
-    try {
-        fetch('http://localhost:3000/withdraw', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                userId: localStorage.getItem('userId'),
-                amount: amount,
-                method: method,
-                details: details,
-                email: email
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('تم إرسال طلب السحب:', data);
-            alert(`تم تقديم طلب السحب بنجاح بمبلغ ${amount} نقاط.`);
-        })
-        .catch(error => {
-            console.error('حدث خطأ أثناء إرسال طلب السحب:', error);
-            alert('حدث خطأ أثناء إرسال طلب السحب.');
-        });
-    } catch (error) {
-        console.error('حدث خطأ أثناء معالجة طلب السحب:', error);
-        alert('حدث خطأ أثناء معالجة طلب السحب.');
-    }
-}
+    <script src="سحب.js"></script>
+</body>
+</html>
