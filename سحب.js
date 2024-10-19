@@ -1,4 +1,4 @@
-// استرجاع النقاط من LocalStorage وعرضها
+// استرجاع النقاط من LocalStorage وعرضها في صفحة السحب
 let points = localStorage.getItem('userPoints') || 0;
 points = parseInt(points, 10);
 
