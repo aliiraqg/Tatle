@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>عدن وربح</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="profile">
+                <img src="https://g.top4top.io/p_3213hdy7h0.gif" alt="Profile" class="profile-pic">
+                <div class="username-info">
+                    <span class="username" id="username">القادم افضل🥳</span>
+                    <div class="level"></div>
+                </div>
+            </div>
+            <div class="title">عدن وكسب </div>
+        </div>
+
+        <div class="stats">
+            <div class="token-info">
+                <img src="https://g.top4top.io/p_3213e26ly0.png" alt="Token Icon" class="token-icon">
+                <div class="points-count" id="points">0</div>
+            </div>
+            <div class="earn-rate">
+                <span class="income"></span>  اربح/
+                <span class="clicks">1 النقرة</span>
+            </div>
+        </div>
+
+        <div class="character">
+            <img src="https://i.imgur.com/DZvdHZt.png" alt="Cat Character" class="character-img animated" id="clickable-character">
+        </div>
+
+        <div class="task-section">
+            <div class="energy">
+                <span>500</span> / 500 الطاقة
+            </div>
+            <div class="tasks">
+                <button class="task-button" onclick="navigateTo('tasks.html')">المهام (18)</button>
+            </div>
+        </div>
+
+        <!-- أقسام التنقل السفلية -->
+        <div class="navigation">
+            <button class="nav-button" onclick="navigateTo('index.html')">الرئيسية</button>
+            <button class="nav-button" onclick="navigateTo('محوله.html')">الأرباح</button>
+            <button class="nav-button" onclick="navigateTo('fr.html')">الأصدقاء</button>
+            <button class="nav-button" onclick="navigateTo('سحب.html')">سحب الارباح</button>
+        </div>
+
+        <!-- تنبيه مخصص لنفاذ الطاقة -->
+        <div id="energy-alert" class="energy-alert" style="display: none;">
+            لقد نفدت طاقتك! انتظر قليلًا لزيادة الطاقة.
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
