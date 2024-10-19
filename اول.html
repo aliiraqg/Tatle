@@ -57,25 +57,26 @@
     </div>
 
     <script>
-        // جلب النقاط من LocalStorage وعرضها
+        // متغير لحفظ النقاط بشكل مؤقت أثناء الجلسة
+        let points = 0;
+
+        // تحديث عرض النقاط على الصفحة
         function updatePointsDisplay() {
-            const points = localStorage.getItem('userPoints') || 0;
             document.getElementById('points').textContent = points;
         }
 
-        // تحديث النقاط عند تحميل الصفحة
+        // عند تحميل الصفحة، تحديث العرض الأولي للنقاط
         window.onload = function() {
             updatePointsDisplay();
 
-            // عند النقر على الشخصية، تزيد النقاط بمقدار 1
+            // إضافة نقطة واحدة عند النقر على الصورة
             document.getElementById('clickable-character').addEventListener('click', () => {
-                let points = parseInt(localStorage.getItem('userPoints') || 0);
                 points += 1; // زيادة النقاط
-                localStorage.setItem('userPoints', points); // حفظ النقاط الجديدة
                 updatePointsDisplay(); // تحديث العرض
             });
         };
 
+        // التنقل بين الصفحات
         function navigateTo(page) {
             window.location.href = page;
         }
