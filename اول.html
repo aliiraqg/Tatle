@@ -1,16 +1,59 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>لعبة عدن وربح</title>
+    <title>عدن وربح</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>مرحبًا، <span id="username">أنت الأفضل</span>!</h1>
-        <p>رصيد نقاطك: <span id="points">0</span></p>
-        <p>طاقة: <span class="energy"><span id="energy">500</span> / 500</span></p>
-        <button id="clickable-character">اضغط لزيادة النقاط</button>
+        <div class="header">
+            <div class="profile">
+                <img src="https://g.top4top.io/p_3213hdy7h0.gif" alt="Profile" class="profile-pic">
+                <div class="username-info">
+                    <span class="username" id="username">القادم افضل🥳</span>
+                    <div class="level"></div>
+                </div>
+            </div>
+            <div class="title">عدن وكسب </div>
+        </div>
+
+        <div class="stats">
+            <div class="token-info">
+                <img src="https://g.top4top.io/p_3213e26ly0.png" alt="Token Icon" class="token-icon">
+                <div class="points-count" id="points">0</div>
+            </div>
+            <div class="earn-rate">
+                <span class="income"></span>  اربح/
+                <span class="clicks">1 النقرة</span>
+            </div>
+        </div>
+
+        <div class="character">
+            <img src="https://i.imgur.com/DZvdHZt.png" alt="Cat Character" class="character-img animated" id="clickable-character">
+        </div>
+
+        <div class="task-section">
+            <div class="energy">
+                <span id="energy">500</span> / 500 الطاقة
+            </div>
+            <div class="tasks">
+                <button class="task-button" onclick="navigateTo('tasks.html')">المهام (18)</button>
+            </div>
+        </div>
+
+        <!-- أقسام التنقل السفلية -->
+        <div class="navigation">
+            <button class="nav-button" onclick="navigateTo('اول.html')">الرئيسية</button>
+            <button class="nav-button" onclick="navigateTo('محوله.html')">الأرباح</button>
+            <button class="nav-button" onclick="navigateTo('fr.html')">الأصدقاء</button>
+            <button class="nav-button" onclick="navigateTo('سحب.html')">سحب الارباح</button>
+        </div>
+
+        <!-- تنبيه مخصص لنفاذ الطاقة -->
+        <div id="energy-alert" class="energy-alert" style="display: none;">
+            لقد نفدت طاقتك! انتظر قليلًا لزيادة الطاقة.
+        </div>
     </div>
 
     <script>
@@ -24,18 +67,26 @@
         points = parseInt(localStorage.getItem('userPoints'), 10) || 0;
         document.getElementById('points').textContent = points;
 
+        // استرجاع الطاقة
+        energy = parseInt(localStorage.getItem('userEnergy'), 10) || 500;
+        document.getElementById('energy').textContent = energy;
+
         // تحديث النقاط عند النقر على الشخصية
         document.getElementById('clickable-character').addEventListener('click', function () {
             if (energy > 0) {
-                points += 5; // إضافة النقاط
+                points += 1; // إضافة النقاط
                 energy--; // تقليل الطاقة
                 document.getElementById('points').textContent = points;
                 document.getElementById('energy').textContent = energy;
 
-                // تخزين النقاط في LocalStorage
+                // تخزين النقاط والطاقة في LocalStorage
                 localStorage.setItem('userPoints', points);
+                localStorage.setItem('userEnergy', energy);
             } else {
-                alert('لقد نفذت طاقتك! انتظر قليلًا لزيادة الطاقة.');
+                document.getElementById('energy-alert').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('energy-alert').style.display = 'none';
+                }, 3000);
             }
         });
 
@@ -44,8 +95,14 @@
             if (energy < maxEnergy) {
                 energy++;
                 document.getElementById('energy').textContent = energy;
+                localStorage.setItem('userEnergy', energy);
             }
         }, energyIncreaseInterval);
+
+        // دالة التنقل بين الصفحات
+        function navigateTo(page) {
+            window.location.href = page;
+        }
     </script>
 </body>
 </html>
