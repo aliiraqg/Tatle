@@ -11,7 +11,7 @@
             <div class="profile">
                 <img src="https://g.top4top.io/p_3213hdy7h0.gif" alt="Profile" class="profile-pic">
                 <div class="username-info">
-                    <span class="username" id="username">القادم افضل🥳</span>
+                    <span class="username" id="username">أنت الأفضل</span>
                     <div class="level"></div>
                 </div>
             </div>
@@ -57,25 +57,63 @@
     </div>
 
     <script>
-        // جلب النقاط من LocalStorage وعرضها
-        let points = parseInt(localStorage.getItem('userPoints')) || 0;
+        let points = 0;
+        let energy = 500; // الطاقة الافتراضية
+        const maxEnergy = 500;
+        const energyIncreaseInterval = 5 * 1000;
+        const energyIncreaseAmount = 1;
 
-        // تحديث عرض النقاط في الصفحة
-        function updatePointsDisplay() {
-            document.getElementById('points').textContent = points;
+        // استرجاع userId من LocalStorage أو إنشاء واحد جديد
+        let userId = localStorage.getItem('userId');
+        if (!userId) {
+            userId = `user_${new Date().getTime()}`; // إنشاء معرف جديد بناءً على الوقت الحالي
+            localStorage.setItem('userId', userId); // تخزين userId الجديد
         }
 
-        // عند تحميل الصفحة، تحديث العرض الأولي للنقاط
-        window.onload = function() {
-            updatePointsDisplay();
+        // استرجاع النقاط والطاقة من LocalStorage إذا كانت موجودة
+        points = parseInt(localStorage.getItem('userPoints')) || 0;
+        energy = parseInt(localStorage.getItem('userEnergy')) || energy;
 
-            // عند النقر على الشخصية، تزداد النقاط بمقدار 5
-            document.getElementById('clickable-character').addEventListener('click', () => {
+        // تحديث عرض النقاط والطاقة في الصفحة
+        document.getElementById('points').textContent = points;
+        document.querySelector('.energy span').textContent = energy;
+
+        // عند النقر على الشخصية، تزداد النقاط
+        document.getElementById('clickable-character').addEventListener('click', () => {
+            if (energy > 0) {
                 points += 5; // زيادة النقاط
-                localStorage.setItem('userPoints', points); // حفظ النقاط الجديدة في LocalStorage
-                updatePointsDisplay(); // تحديث العرض
-            });
-        };
+                energy--; // تقليل الطاقة
+                document.getElementById('points').textContent = points;
+                document.querySelector('.energy span').textContent = energy;
+
+                // حفظ النقاط والطاقة في LocalStorage
+                localStorage.setItem('userPoints', points);
+                localStorage.setItem('userEnergy', energy);
+            } else {
+                showCustomAlert('لقد نفذت طاقتك! انتظر قليلًا لزيادة الطاقة.');
+            }
+        });
+
+        // زيادة الطاقة كل 5 ثوانٍ
+        setInterval(function () {
+            if (energy < maxEnergy) {
+                energy++;
+                document.querySelector('.energy span').textContent = energy;
+                localStorage.setItem('userEnergy', energy); // تحديث الطاقة في LocalStorage
+            }
+        }, energyIncreaseInterval);
+
+        function showCustomAlert(message) {
+            const alertContainer = document.createElement('div');
+            alertContainer.classList.add('custom-alert');
+            alertContainer.textContent = message;
+
+            document.body.appendChild(alertContainer);
+
+            setTimeout(() => {
+                document.body.removeChild(alertContainer);
+            }, 3000);
+        }
 
         function navigateTo(page) {
             window.location.href = page;
