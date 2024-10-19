@@ -4,28 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>احسب ارباحك</title>
-    <link rel="stylesheet" href="محوله.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <div class="currency-container">
-            <h1>احسب ارباحك</h1>
+            <h1>احسب أرباحك</h1>
             <div class="input-box">
                 <input type="text" id="amount" placeholder="أدخل المبلغ" required />
             </div>
             <div class="currency">
                 <div class="box">
-                    <select class="select-option" name="from-currency" id="fromCurrency">
+                    <select class="select-option" id="fromCurrency">
                         <option value="USDT">USDT (Tether)</option>
                         <option value="IQU">IQU (Your Token)</option>
                     </select>
                 </div>
                 <div class="swap-button">
-                    <!-- استبدال الزر بصورة -->
                     <img src="https://g.top4top.io/p_3213qhg320.gif" alt="Swap Icon" onclick="swapCurrencies()"> 
                 </div>
                 <div class="box">
-                    <select class="select-option" name="to-currency" id="toCurrency">
+                    <select class="select-option" id="toCurrency">
                         <option value="IQU">IQU (Your Token)</option>
                         <option value="USDT">USDT (Tether)</option>
                     </select>
@@ -35,7 +34,7 @@
             </div>
         </div>
 
-        <!-- الأقسام السفلية -->
+        <!-- أقسام التنقل السفلية -->
         <div class="navigation">
             <button class="nav-button" onclick="navigateTo('index.html')">الرئيسية</button>
             <button class="nav-button" onclick="navigateTo('earnings.html')">الأرباح</button>
@@ -43,7 +42,7 @@
             <button class="nav-button" onclick="navigateTo('1win.html')">1win</button>
         </div>
 
-        <script src="محوله.js"></script>
+        <script src="script.js"></script>
     </div>
 </body>
 </html>
