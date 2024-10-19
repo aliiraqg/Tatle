@@ -1,60 +1,62 @@
-// إعداد EmailJS
-const serviceID = "service_rc4m8mj"; // معرف الخدمة الخاص بك
-const templateID = "template_6b4cokc"; // معرف القالب الخاص بك
-const publicKey = "atTX7kOCqC1bopqkE"; // المفتاح العام الخاص بك
+// استرجاع النقاط من LocalStorage وعرضها
+let points = localStorage.getItem('userPoints') || 0;
+points = parseInt(points, 10);
 
-let points = 500; // النقاط الخاصة بالمستخدم
+// تحديث عرض النقاط في الصفحة
+document.getElementById('currentPoints').textContent = points;
 
-// جلب عدد النقاط المتوفرة من التخزين المحلي أو الخادم
-function loadPoints() {
-    points = localStorage.getItem('points') || 500; // تعيين 500 نقاط افتراضية
-    document.getElementById('points-info').textContent = `لديك ${points} نقاط`;
-}
-
-// تقديم طلب السحب
+// دالة لسحب الأرباح
 function submitWithdrawal() {
-    const selectedOption = document.getElementById('withdrawOption').value;
-    const amount = parseFloat(document.getElementById('withdrawAmount').value);
+    const amount = parseInt(document.getElementById('withdrawAmount').value, 10);
     const details = document.getElementById('withdrawDetails').value;
     const email = document.getElementById('emailAddress').value;
+    const method = document.getElementById('withdrawOption').value;
 
-    if (!selectedOption) {
-        alert('يرجى اختيار وسيلة السحب أولاً.');
+    // التحقق من أن جميع الحقول مملوءة
+    if (!amount || !details || !email || !method) {
+        alert('يرجى ملء جميع الحقول المطلوبة.');
         return;
     }
 
-    if (!amount || !details || !email) {
-        alert('يرجى إدخال جميع البيانات المطلوبة.');
+    // التحقق من أن المستخدم يملك نقاط كافية
+    if (amount > points) {
+        alert('لا تملك نقاط كافية لإتمام هذه العملية.');
         return;
     }
 
-    if (points < amount) {
-        alert('لا تملك نقاط كافية لسحب هذا المبلغ.');
-        return;
-    }
-
-    // خصم النقاط
+    // خصم المبلغ من النقاط
     points -= amount;
-    localStorage.setItem('points', points);
+    localStorage.setItem('userPoints', points);
 
-    // إعداد بيانات القالب لإرسالها عبر EmailJS
-    const templateParams = {
-        amount: amount,
-        selectedOption: selectedOption,
-        details: details,
-        email: email
-    };
+    // تحديث عرض الرصيد الجديد في الصفحة
+    document.getElementById('currentPoints').textContent = points;
 
-    // إرسال البيانات عبر EmailJS
-    emailjs.send(serviceID, templateID, templateParams)
-        .then(function(response) {
-            console.log('تم الإرسال بنجاح:', response.status, response.text);
-            alert('تم إرسال طلب السحب بنجاح.');
-        }, function(error) {
-            console.log('فشل الإرسال:', error);
-            alert('فشل في إرسال طلب السحب. الرجاء المحاولة مرة أخرى.');
+    // إرسال بيانات السحب إلى الخادم
+    try {
+        fetch('http://localhost:3000/withdraw', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: localStorage.getItem('userId'),
+                amount: amount,
+                method: method,
+                details: details,
+                email: email
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('تم إرسال طلب السحب:', data);
+            alert(`تم تقديم طلب السحب بنجاح بمبلغ ${amount} نقاط.`);
+        })
+        .catch(error => {
+            console.error('حدث خطأ أثناء إرسال طلب السحب:', error);
+            alert('حدث خطأ أثناء إرسال طلب السحب.');
         });
+    } catch (error) {
+        console.error('حدث خطأ أثناء معالجة طلب السحب:', error);
+        alert('حدث خطأ أثناء معالجة طلب السحب.');
+    }
 }
-
-// تحميل النقاط عند فتح الصفحة
-loadPoints();
