@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>سحب الأرباح</title>
-    <link rel="stylesheet" href="سحب.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
@@ -37,42 +37,6 @@
         <button class="submit" onclick="submitWithdrawal()">سحب الأرباح</button>
     </div>
 
-    <script>
-        // استرجاع النقاط من LocalStorage وعرضها
-        function updatePointsDisplay() {
-            const userPoints = localStorage.getItem('userPoints') || 0;
-            document.getElementById('currentPoints').textContent = userPoints;
-        }
-
-        // عرض النقاط عند تحميل الصفحة
-        updatePointsDisplay();
-
-        function submitWithdrawal() {
-            const amount = parseInt(document.getElementById('withdrawAmount').value);
-            const details = document.getElementById('withdrawDetails').value;
-            const email = document.getElementById('emailAddress').value;
-            const method = document.getElementById('withdrawOption').value;
-
-            let userPoints = parseInt(localStorage.getItem('userPoints') || 0);
-
-            // التحقق من إدخال كافة المعلومات
-            if (amount && details && email && method) {
-                if (userPoints >= amount) {
-                    // خصم النقاط
-                    userPoints -= amount;
-                    localStorage.setItem('userPoints', userPoints);
-
-                    // تحديث الرصيد الجديد في الصفحة
-                    updatePointsDisplay();
-
-                    alert(`تم تقديم طلب السحب بنجاح بمبلغ ${amount} نقاط.`);
-                } else {
-                    alert('لا تملك نقاط كافية لإتمام هذه العملية.');
-                }
-            } else {
-                alert('يرجى ملء جميع الحقول المطلوبة.');
-            }
-        }
-    </script>
+    <script src="withdraw.js"></script>
 </body>
 </html>
