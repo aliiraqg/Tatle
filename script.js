@@ -47,7 +47,7 @@ if (!userId) {
             document.getElementById('points').textContent = points;
             document.querySelector('.energy span').textContent = energy;
 
-            // تخزين النقاط في LocalStorage ليتم استخدامها لاحقًا
+            // تخزين النقاط في LocalStorage
             localStorage.setItem('userPoints', points);
 
             try {
@@ -90,7 +90,7 @@ if (!userId) {
             points = data.points || 0;  // استرجاع النقاط
             document.getElementById('points').textContent = points;
 
-            // تخزين النقاط في LocalStorage ليتم استخدامها لاحقًا
+            // تخزين النقاط في LocalStorage
             localStorage.setItem('userPoints', points);
         } catch (error) {
             console.error('خطأ في استرجاع النقاط:', error);
@@ -99,3 +99,43 @@ if (!userId) {
 
     fetchPoints();
 }
+
+// دالة التنقل بين الصفحات
+function navigateTo(page) {
+    window.location.href = page;
+}
+
+// دالة إظهار تنبيه مخصص
+function showCustomAlert(message) {
+    const alertContainer = document.createElement('div');
+    alertContainer.classList.add('custom-alert');
+    alertContainer.textContent = message;
+
+    document.body.appendChild(alertContainer);
+
+    setTimeout(() => {
+        document.body.removeChild(alertContainer);
+    }, 3000);
+}
+
+// منع تكبير الصفحة
+document.addEventListener('gesturestart', function (e) {
+    e.preventDefault();
+});
+document.addEventListener('gesturechange', function (e) {
+    e.preventDefault();
+});
+document.addEventListener('gestureend', function (e) {
+    e.preventDefault();
+});
+
+// منع النسخ واللصق والقص
+document.addEventListener('copy', function (e) {
+    e.preventDefault();
+});
+document.addEventListener('cut', function (e) {
+    e.preventDefault();
+});
+document.addEventListener('paste', function (e) {
+    e.preventDefault();
+});
