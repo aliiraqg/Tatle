@@ -8,89 +8,125 @@
 
 html, body {
     height: 100%;
-    background-color: #f7f7f7;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    overflow: hidden; /* منع التمرير */
 }
 
 .container {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    background-color: #202020;
+}
+
+.currency-container {
+    background-color: #7cb889;
+    padding: 1.5em;
+    border-radius: 20px;
+    margin: auto;
+    width: 85%;
     text-align: center;
 }
 
 h1 {
-    color: #333;
-    margin-bottom: 20px;
+    color: white;
+    margin-bottom: 15px;
 }
 
-.withdrawal-option {
+.input-box input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.2em;
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.currency {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px;
-    border: 2px solid #ececec;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    transition: background-color 0.3s;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.withdrawal-option:hover {
-    background-color: #f0f0f0;
-}
-
-.withdrawal-option img {
-    width: 50px;
-    height: 50px;
-}
-
-.withdrawal-option span {
-    flex-grow: 1;
-    margin-left: 15px;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.withdrawal-option button {
-    background-color: #4CAF50;
-    color: white;
+.box select {
+    padding: 8px;
+    font-size: 1em;
+    border-radius: 8px;
     border: none;
-    padding: 10px 20px;
-    border-radius: 10px;
+    width: 100%;
+}
+
+.swap-button img {
+    width: 40px;
+    height: 40px;
     cursor: pointer;
-    font-size: 16px;
 }
 
-.withdrawal-option button:hover {
-    background-color: #45a049;
+button.convert {
+    background-color: black;
+    color: white;
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2em;
+    cursor: pointer;
+    margin-top: 12px;
 }
 
-input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 2px solid #ececec;
-    border-radius: 10px;
-    font-size: 16px;
-}
-
-button.submit {
-    width: 100%;
+button.convert:hover {
     background-color: #333;
-    color: white;
-    padding: 15px;
-    border: none;
-    border-radius: 10px;
-    font-size: 18px;
-    cursor: pointer;
-    margin-top: 15px;
 }
 
-button.submit:hover {
-    background-color: #555;
+.result {
+    color: white;
+    font-size: 1.3em;
+    margin-top: 10px;
+}
+
+/* تصميم الأقسام السفلية */
+.navigation {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    background-color: #1e1e30;
+    border-top: 2px solid #140c01;
+}
+
+.nav-button {
+    background-color: #1e1e30;
+    color: white;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    flex-grow: 1;
+    margin: 0 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.nav-button:hover {
+    background-color: #f0ad4e;
+}
+
+@media (max-width: 768px) {
+    .input-box input {
+        font-size: 1em;
+    }
+
+    button.convert {
+        font-size: 1em;
+    }
+
+    .result {
+        font-size: 1.2em;
+    }
+
+    .nav-button {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
 }
