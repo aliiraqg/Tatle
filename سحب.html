@@ -5,14 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>سحب الأرباح</title>
     <link rel="stylesheet" href="سحب.css">
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
-    <script>
-        emailjs.init("atTX7kOCqC1bopqkE"); // المفتاح العام الذي قدمته
-    </script>
 </head>
 <body>
     <div class="container">
         <h1>سحب الأرباح</h1>
+
+        <!-- عرض رصيد النقاط الحالي -->
+        <div class="balance">
+            <p>رصيد النقاط الخاص بك: <span id="currentPoints">0</span></p>
+        </div>
 
         <!-- تحديد وسيلة السحب -->
         <div class="input-box">
@@ -20,10 +21,10 @@
             <div class="custom-select">
                 <select id="withdrawOption" class="select-option">
                     <option value="" disabled selected>اختر وسيلة السحب</option>
-                    <option value="زين كاش" data-icon="https://b.top4top.io/p_3213ugktq0.jpg">زين كاش</option>
-                    <option value="أسيا سيل" data-icon="https://c.top4top.io/p_32130l5rd0.jpg">أسيا سيل</option>
-                    <option value="USDT" data-icon="https://g.top4top.io/p_32130dfqw0.png">USDT</option>
-                    <option value="فودافون كاش" data-icon="https://d.top4top.io/p_3213ufebn1.jpg">فودافون كاش</option>
+                    <option value="زين كاش">زين كاش</option>
+                    <option value="أسيا سيل">أسيا سيل</option>
+                    <option value="USDT">USDT</option>
+                    <option value="فودافون كاش">فودافون كاش</option>
                 </select>
             </div>
         </div>
@@ -34,17 +35,27 @@
         <input type="email" id="emailAddress" placeholder="أدخل بريدك الإلكتروني" required>
 
         <button class="submit" onclick="submitWithdrawal()">سحب الأرباح</button>
-        <p id="points-info" style="margin-top: 20px;"></p> <!-- لإظهار حالة النقاط -->
     </div>
 
-    <!-- الأقسام السفلية -->
-    <div class="navigation">
-        <button class="nav-button" onclick="navigateTo('اول.html')">الرئيسية</button>
-        <button class="nav-button" onclick="navigateTo('محوله.html')">الأرباح</button>
-        <button class="nav-button" onclick="navigateTo('fr.html')">الأصدقاء</button>
-        <button class="nav-button" onclick="navigateTo('سحب.html')">سحب الأرباح</button>
-    </div>
+    <script>
+        // استرجاع النقاط من LocalStorage وعرضها
+        const userPoints = localStorage.getItem('userPoints');
+        document.getElementById('currentPoints').textContent = userPoints || 0;
 
-    <script src="سحب.js"></script>
+        function submitWithdrawal() {
+            const amount = document.getElementById('withdrawAmount').value;
+            const details = document.getElementById('withdrawDetails').value;
+            const email = document.getElementById('emailAddress').value;
+            const method = document.getElementById('withdrawOption').value;
+
+            // التحقق من إدخال كافة المعلومات
+            if (amount && details && email && method) {
+                alert(`تم تقديم طلب السحب بنجاح بمبلغ ${amount} نقاط.`);
+                // قم بإضافة عملية السحب هنا
+            } else {
+                alert('يرجى ملء جميع الحقول المطلوبة.');
+            }
+        }
+    </script>
 </body>
 </html>
