@@ -56,30 +56,6 @@
         </div>
     </div>
 
-    <script>
-        // متغير لحفظ النقاط بشكل مؤقت أثناء الجلسة
-        let points = 0;
-
-        // تحديث عرض النقاط على الصفحة
-        function updatePointsDisplay() {
-            document.getElementById('points').textContent = points;
-        }
-
-        // عند تحميل الصفحة، تحديث العرض الأولي للنقاط
-        window.onload = function() {
-            updatePointsDisplay();
-
-            // إضافة نقطة واحدة عند النقر على الصورة
-            document.getElementById('clickable-character').addEventListener('click', () => {
-                points += 1; // زيادة النقاط
-                updatePointsDisplay(); // تحديث العرض
-            });
-        };
-
-        // التنقل بين الصفحات
-        function navigateTo(page) {
-            window.location.href = page;
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
