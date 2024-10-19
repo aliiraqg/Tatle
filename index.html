@@ -1,6 +1,145 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mine2Mine Loading</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #1d1d1d;
+            color: white;
+            text-align: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* صفحة التحميل */
+        .loading-screen {
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #1d1d1d;
+            z-index: 9999; /* تأكد من أنها فوق محتوى الصفحة الرئيسية */
+        }
+
+        .header-text {
+            font-size: 2em;
+            font-weight: bold;
+            color: #ff9800;
+            animation: slideDown 2s ease-in-out, fadeIn 2s ease-in-out;
+        }
+
+        @keyframes slideDown {
+            0% {
+                transform: translateY(-100px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .center-image {
+            width: 200px;
+            height: auto;
+            margin: 20px 0;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .loading-text {
+            font-size: 1.5em;
+            color: #ff9800;
+        }
+
+        .loading-text span {
+            opacity: 0;
+            animation: blink 1.5s infinite;
+        }
+
+        .dot1 {
+            animation-delay: 0s;
+        }
+
+        .dot2 {
+            animation-delay: 0.5s;
+        }
+
+        .dot3 {
+            animation-delay: 1s;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* إخفاء المحتوى الرئيسي في البداية */
+        .main-content {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شاشة التحميل -->
+    <div class="loading-screen">
+        <div class="header-text">عدن وكسب</div>
+        <img src="https://d.top4top.io/p_3214abejj0.png" alt="Mine2Mine Logo" class="center-image">
+        <div class="loading-text">
+            Loading<span class="dot1">.</span><span class="dot2">.</span><span class="dot3">.</span>
+        </div>
+    </div>
+
+    <!-- المحتوى الرئيسي للموقع -->
+    <div class="main-content">
+        <!-- هنا يمكنك وضع محتوى الصفحة الرئيسية -->
+        <h1>مرحبا بك في الصفحة الرئيسية</h1>
+        <p>هذا هو محتوى موقعك.</p>
+    </div>
+
+    <script>
+        // إخفاء شاشة التحميل بعد 10 ثوانٍ وإظهار المحتوى الرئيسي
+        setTimeout(function(){
+            document.querySelector('.loading-screen').style.display = 'none'; // إخفاء شاشة التحميل
+            document.querySelector('.main-content').style.display = 'block';  // إظهار المحتوى الرئيسي
+        }, 10000); // الوقت بالثواني (هنا 10 ثواني)
+    </script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>عدن وربح</title>
     <link rel="stylesheet" href="styles.css">
