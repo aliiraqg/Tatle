@@ -56,9 +56,11 @@
             document.getElementById('currentPoints').innerText = currentPoints;
 
             // تحديث النقاط في الصفحة الأولى
-            let mainPagePoints = window.opener.document.getElementById('points');
-            if (mainPagePoints) {
-                mainPagePoints.innerText = currentPoints;
+            if (window.opener) {
+                let mainPagePoints = window.opener.document.getElementById('points');
+                if (mainPagePoints) {
+                    mainPagePoints.innerText = currentPoints;
+                }
             }
 
             alert("تم سحب " + withdrawAmount + " نقطة بنجاح.");
