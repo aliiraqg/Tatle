@@ -21,7 +21,7 @@
         <div class="stats">
             <div class="token-info">
                 <img src="https://g.top4top.io/p_3213e26ly0.png" alt="Token Icon" class="token-icon">
-                <div class="points-count" id="points">100</div> <!-- مثال على النقاط -->
+                <div class="points-count" id="points">0</div>
             </div>
             <div class="earn-rate">
                 <span class="income"></span>  اربح/
@@ -47,7 +47,7 @@
             <button class="nav-button" onclick="navigateTo('اول.html')">الرئيسية</button>
             <button class="nav-button" onclick="navigateTo('محوله.html')">الأرباح</button>
             <button class="nav-button" onclick="navigateTo('fr.html')">الأصدقاء</button>
-            <button class="nav-button" id="withdrawButton">سحب الارباح</button>
+            <button class="nav-button" onclick="navigateTo('سحب.html')">سحب الارباح</button>
         </div>
 
         <!-- تنبيه مخصص لنفاذ الطاقة -->
@@ -56,14 +56,6 @@
         </div>
     </div>
 
-    <script>
-        // افتراض أن المستخدم يمتلك 100 نقطة
-        let points = 100;
-
-        // تمرير النقاط عبر URL عند الضغط على زر "سحب الأرباح"
-        document.getElementById('withdrawButton').addEventListener('click', function () {
-            window.location.href = `withdraw.html?points=${points}`;
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
