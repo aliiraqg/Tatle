@@ -37,7 +37,7 @@
     <script>
         // تحميل النقاط من localStorage عند تحميل الصفحة
         window.onload = function() {
-            let points = localStorage.getItem('points') || 0;
+            let points = parseInt(localStorage.getItem('points')) || 0; // استخدام parseInt للتأكد من أن القيمة عدد
             document.getElementById('currentPoints').innerText = points;
         };
 
