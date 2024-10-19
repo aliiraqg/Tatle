@@ -79,15 +79,21 @@
         if (!userId) {
             alert("لم يتم العثور على معرف المستخدم. تأكد من فتح التطبيق عبر تليجرام.");
         } else {
-            // تعيين معرف المستخدم في العنصر
             document.getElementById('userIdDisplay').textContent = userId;
 
-            // استرجاع النقاط والطاقة الخاصة بالمستخدم من LocalStorage
-            points = parseInt(localStorage.getItem(`userPoints_${userId}`), 10) || 0;
-            energy = parseInt(localStorage.getItem(`userEnergy_${userId}`), 10) || 500;
+            // استرجاع بيانات المستخدم من الخادم
+            fetch(`http://localhost:3000/api/user/${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data) {
+                        points = data.points || 0;
+                        energy = data.energy || 500;
 
-            document.getElementById('points').textContent = points;
-            document.getElementById('energy').textContent = energy;
+                        document.getElementById('points').textContent = points;
+                        document.getElementById('energy').textContent = energy;
+                    }
+                })
+                .catch(error => console.error('خطأ في استرجاع بيانات المستخدم:', error));
 
             // تحديث النقاط عند النقر على الشخصية
             document.getElementById('clickable-character').addEventListener('click', function () {
@@ -97,9 +103,17 @@
                     document.getElementById('points').textContent = points;
                     document.getElementById('energy').textContent = energy;
 
-                    // تخزين النقاط والطاقة في LocalStorage
-                    localStorage.setItem(`userPoints_${userId}`, points);
-                    localStorage.setItem(`userEnergy_${userId}`, energy);
+                    // تحديث بيانات المستخدم في قاعدة البيانات
+                    fetch(`http://localhost:3000/api/user/${userId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ points: points, energy: energy })
+                    })
+                    .then(response => response.json())
+                    .then(data => console.log('تم تحديث بيانات المستخدم:', data))
+                    .catch(error => console.error('حدث خطأ أثناء تحديث البيانات:', error));
                 } else {
                     document.getElementById('energy-alert').style.display = 'block';
                     setTimeout(() => {
@@ -113,7 +127,16 @@
                 if (energy < maxEnergy) {
                     energy++;
                     document.getElementById('energy').textContent = energy;
-                    localStorage.setItem(`userEnergy_${userId}`, energy);
+
+                    // تحديث الطاقة فقط في قاعدة البيانات
+                    fetch(`http://localhost:3000/api/user/${userId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ energy: energy })
+                    })
+                    .catch(error => console.error('حدث خطأ أثناء تحديث الطاقة:', error));
                 }
             }, energyIncreaseInterval);
         }
