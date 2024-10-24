@@ -12,32 +12,45 @@ const usernameFromUrl = urlParams.get('username');
 // إذا كان userId موجود في URL، نخزنه في Local Storage
 if (userIdFromUrl) {
     localStorage.setItem('userId', userIdFromUrl);
+    if (usernameFromUrl) {
+        localStorage.setItem('username', usernameFromUrl);
+    }
 }
 
-// استرجاع userId من Local Storage
+// استرجاع userId واسم المستخدم من Local Storage
 const userId = localStorage.getItem('userId');
+const username = localStorage.getItem('username');
 
 // التحقق من أن userId موجود
 if (!userId) {
     alert("لم يتم العثور على معرف المستخدم. تأكد من فتح التطبيق عبر تليجرام.");
 } else {
     // تعيين اسم المستخدم في العنصر
-    document.getElementById('username').textContent = usernameFromUrl || "أنت الأفضل";
+    document.getElementById('username').textContent = username || "أنت الأفضل";
+
+    // جلب النقاط الحالية من الخادم
+    async function fetchPoints() {
+        try {
+            const response = await fetch(`http://localhost:3000/getUserPoints?userId=${userId}`);
+            const data = await response.json();
+            points = data.points || 0;  // استرجاع النقاط
+            document.getElementById('points').textContent = points;
+        } catch (error) {
+            console.error('خطأ في استرجاع النقاط:', error);
+        }
+    }
+
+    fetchPoints();
 
     // استرجاع آخر وقت كان المستخدم نشطًا فيه
-    const lastActivityTime = localStorage.getItem('lastActivityTime');
     const lastEnergyUpdateTime = localStorage.getItem('lastEnergyUpdateTime') || Date.now();
     const currentTime = Date.now();
 
-    // حساب الوقت المنقضي منذ آخر نشاط
-    if (lastActivityTime) {
-        const timeDifference = currentTime - lastEnergyUpdateTime;
-        const energyToRecover = Math.floor(timeDifference / energyIncreaseInterval) * energyIncreaseAmount;
-
-        // استعادة الطاقة بناءً على الوقت المنقضي
-        energy = Math.min(energy + energyToRecover, maxEnergy);
-        document.querySelector('.energy span').textContent = energy;
-    }
+    // حساب الوقت المنقضي منذ آخر تحديث للطاقة
+    const timeDifference = currentTime - lastEnergyUpdateTime;
+    const energyToRecover = Math.floor(timeDifference / energyIncreaseInterval) * energyIncreaseAmount;
+    energy = Math.min(energy + energyToRecover, maxEnergy);
+    document.querySelector('.energy span').textContent = energy;
 
     // تحديث النقاط عند النقر على الشخصية
     document.getElementById('clickable-character').addEventListener('click', async function () {
@@ -56,15 +69,19 @@ if (!userId) {
                     },
                     body: JSON.stringify({ userId: userId, points: points })
                 });
-                const data = await response.json();
-                console.log('تم إرسال البيانات إلى الخادم:', { userId: userId, points: points });
+
+                if (response.ok) {
+                    console.log('✔️ تم إرسال البيانات إلى الخادم بنجاح:', { userId: userId, points: points });
+                } else {
+                    console.error('❌ حدث خطأ في استجابة الخادم:', response.statusText);
+                }
             } catch (error) {
-                console.error('حدث خطأ أثناء إرسال البيانات إلى الخادم:', error);
+                console.error('❌ حدث خطأ أثناء إرسال البيانات إلى الخادم:', error);
             }
 
             // تحديث آخر وقت نشاط
             localStorage.setItem('lastActivityTime', Date.now());
-            localStorage.setItem('lastEnergyUpdateTime', Date.now()); // تحديث وقت آخر تحديث للطاقة
+            localStorage.setItem('lastEnergyUpdateTime', Date.now());
         } else {
             showCustomAlert('لقد نفذت طاقتك! انتظر قليلًا لزيادة الطاقة.');
         }
@@ -75,23 +92,9 @@ if (!userId) {
         if (energy < maxEnergy) {
             energy++;
             document.querySelector('.energy span').textContent = energy;
-            localStorage.setItem('lastEnergyUpdateTime', Date.now()); // تحديث وقت آخر زيادة للطاقة
+            localStorage.setItem('lastEnergyUpdateTime', Date.now());
         }
     }, energyIncreaseInterval);
-
-    // عند تحميل الصفحة، تأكد من جلب النقاط الحالية
-    async function fetchPoints() {
-        try {
-            const response = await fetch(`http://localhost:3000/getUserPoints?userId=${userId}`);
-            const data = await response.json();
-            points = data.points || 0;  // استرجاع النقاط
-            document.getElementById('points').textContent = points;
-        } catch (error) {
-            console.error('خطأ في استرجاع النقاط:', error);
-        }
-    }
-
-    fetchPoints();
 }
 
 // دالة التنقل بين الصفحات
