@@ -1,61 +1,170 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>عدن وربح</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <div class="profile">
-                <img src="https://g.top4top.io/p_3213hdy7h0.gif" alt="Profile" class="profile-pic">
-                <div class="username-info">
-                    <span class="username" id="username">القادم افضل🥳</span>
-                    <div class="level"></div>
-                </div>
-            </div>
-            <div class="title">عدن وكسب </div>
-        </div>
+let points = 0; // النقاط الافتراضية
+let energy = 500; // الطاقة الافتراضية
+const maxEnergy = 500; // الحد الأقصى للطاقة
+const energyIncreaseInterval = 5 * 1000; // زيادة الطاقة كل 5 ثوانٍ
+const energyIncreaseAmount = 1; // كمية الطاقة التي تضاف كل 5 ثوانٍ
 
-        <div class="stats">
-            <div class="token-info">
-                <img src="https://g.top4top.io/p_3213e26ly0.png" alt="Token Icon" class="token-icon">
-                <div class="points-count" id="points">0</div>
-            </div>
-            <div class="earn-rate">
-                <span class="income"></span>  اربح/
-                <span class="clicks">1 النقرة</span>
-            </div>
-        </div>
+// استرجاع userId من URL الخاص بتطبيق Telegram Web App أو من Local Storage
+const urlParams = new URLSearchParams(window.location.search);
+const userIdFromUrl = urlParams.get('userId');
+const usernameFromUrl = urlParams.get('username');
 
-        <div class="character">
-            <img src="https://i.imgur.com/DZvdHZt.png" alt="Cat Character" class="character-img animated" id="clickable-character">
-        </div>
+// إذا كان userId موجود في URL، نخزنه في Local Storage
+if (userIdFromUrl) {
+    localStorage.setItem('userId', userIdFromUrl);
+    if (usernameFromUrl) {
+        localStorage.setItem('username', usernameFromUrl);
+    }
+}
 
-        <div class="task-section">
-            <div class="energy">
-                <span>500</span> / 500 الطاقة
-            </div>
-            <div class="tasks">
-                <button class="task-button" onclick="navigateTo('tasks.html')">المهام (18)</button>
-            </div>
-        </div>
+// استرجاع userId واسم المستخدم من Local Storage
+const userId = localStorage.getItem('userId');
+const username = localStorage.getItem('username');
 
-        <!-- أقسام التنقل السفلية -->
-        <div class="navigation">
-            <button class="nav-button" onclick="navigateTo('اول.html')">الرئيسية</button>
-            <button class="nav-button" onclick="navigateTo('محوله.html')">الأرباح</button>
-            <button class="nav-button" onclick="navigateTo('fr.html')">الأصدقاء</button>
-            <button class="nav-button" onclick="navigateTo('سحب.html')">سحب الارباح</button>
-        </div>
+// التحقق من أن userId موجود
+if (!userId) {
+    alert("لم يتم العثور على معرف المستخدم. تأكد من فتح التطبيق عبر تليجرام.");
+} else {
+    // تعيين اسم المستخدم في العنصر
+    document.getElementById('username').textContent = username || "أنت الأفضل";
 
-        <!-- تنبيه مخصص لنفاذ الطاقة -->
-        <div id="energy-alert" class="energy-alert" style="display: none;">
-            لقد نفدت طاقتك! انتظر قليلًا لزيادة الطاقة.
-        </div>
-    </div>
+    // جلب النقاط الحالية من الخادم
+    async function fetchPoints() {
+        try {
+            const response = await fetch(`http://localhost:3000/getUserPoints?userId=${userId}`);
+            const data = await response.json();
+            points = data.points || 0;  // استرجاع النقاط
+            document.getElementById('points').textContent = points;
+        } catch (error) {
+            console.error('خطأ في استرجاع النقاط:', error);
+        }
+    }
 
-    <script src="script.js"></script>
-</body>
-</html>
+    fetchPoints();
+
+    // استرجاع آخر وقت كان المستخدم نشطًا فيه
+    const lastEnergyUpdateTime = localStorage.getItem('lastEnergyUpdateTime') || Date.now();
+    const currentTime = Date.now();
+
+    // حساب الوقت المنقضي منذ آخر تحديث للطاقة
+    const timeDifference = currentTime - lastEnergyUpdateTime;
+    const energyToRecover = Math.floor(timeDifference / energyIncreaseInterval) * energyIncreaseAmount;
+    energy = Math.min(energy + energyToRecover, maxEnergy);
+    document.querySelector('.energy span').textContent = energy;
+
+    // تحديث النقاط عند النقر على الشخصية
+    document.getElementById('clickable-character').addEventListener('click', async function () {
+        if (energy > 0) {
+            points += 5; // إضافة النقاط
+            energy--; // تقليل الطاقة
+            document.getElementById('points').textContent = points;
+            document.querySelector('.energy span').textContent = energy;
+
+            try {
+                // إرسال النقاط إلى الخادم
+                const response = await fetch('http://localhost:3000/web_app_data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ userId: userId, points: points })
+                });
+
+                if (response.ok) {
+                    console.log('✔️ تم إرسال البيانات إلى الخادم بنجاح:', { userId: userId, points: points });
+                } else {
+                    console.error('❌ حدث خطأ في استجابة الخادم:', response.statusText);
+                }
+            } catch (error) {
+                console.error('❌ حدث خطأ أثناء إرسال البيانات إلى الخادم:', error);
+            }
+
+            // تحديث آخر وقت نشاط
+            localStorage.setItem('lastActivityTime', Date.now());
+            localStorage.setItem('lastEnergyUpdateTime', Date.now());
+        } else {
+            showCustomAlert('لقد نفدت طاقتك! انتظر قليلًا لزيادة الطاقة.');
+        }
+    });
+
+    // زيادة الطاقة كل 5 ثوانٍ
+    setInterval(function () {
+        if (energy < maxEnergy) {
+            energy++;
+            document.querySelector('.energy span').textContent = energy;
+            localStorage.setItem('lastEnergyUpdateTime', Date.now());
+        }
+    }, energyIncreaseInterval);
+}
+
+// دالة التنقل بين الصفحات
+function navigateTo(page) {
+    window.location.href = page;
+}
+
+// دالة إظهار تنبيه مخصص
+function showCustomAlert(message) {
+    const alertContainer = document.createElement('div');
+    alertContainer.classList.add('custom-alert');
+    alertContainer.textContent = message;
+
+    document.body.appendChild(alertContainer);
+
+    setTimeout(() => {
+        document.body.removeChild(alertContainer);
+    }, 3000);
+}
+
+// دالة لحذف المستخدم
+async function deleteUser() {
+    if (!userId) {
+        alert("لا يمكن حذف المستخدم لأنه لم يتم العثور على معرف المستخدم.");
+        return;
+    }
+
+    try {
+        const response = await fetch('http://localhost:3000/deleteUser', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ userId: userId })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert('تم حذف حسابك بنجاح. يمكنك الآن البدء من جديد!');
+            localStorage.clear(); // حذف جميع البيانات المخزنة
+            window.location.reload(); // إعادة تحميل الصفحة للبدء من جديد
+        } else {
+            console.error('❌ حدث خطأ أثناء حذف المستخدم:', data.message);
+            alert('حدث خطأ أثناء حذف حسابك. الرجاء المحاولة مرة أخرى.');
+        }
+    } catch (error) {
+        console.error('❌ حدث خطأ أثناء إرسال طلب الحذف:', error);
+        alert('حدث خطأ أثناء الاتصال بالخادم. حاول مرة أخرى لاحقاً.');
+    }
+}
+
+// منع تكبير الصفحة
+document.addEventListener('gesturestart', function (e) {
+    e.preventDefault();
+});
+document.addEventListener('gesturechange', function (e) {
+    e.preventDefault();
+});
+document.addEventListener('gestureend', function (e) {
+    e.preventDefault();
+});
+
+// منع النسخ واللصق والقص
+document.addEventListener('copy', function (e) {
+    e.preventDefault();
+});
+document.addEventListener('cut', function (e) {
+    e.preventDefault();
+});
+document.addEventListener('paste', function (e) {
+    e.preventDefault();
+});
