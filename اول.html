@@ -61,21 +61,7 @@
         let energy = 500;
         const maxEnergy = 500;
         const energyIncreaseInterval = 5 * 1000;
-        const energyIncreaseAmount = 1;
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const userIdFromUrl = urlParams.get('userId');
-        const usernameFromUrl = urlParams.get('username');
-
-        if (userIdFromUrl) {
-            localStorage.setItem('userId', userIdFromUrl);
-        }
-
-        const userId = localStorage.getItem('userId');
-
-        if (!userId) {
-            alert("لم يتم العثور على معرف المستخدم. تأكد من فتح التطبيق عبر تليجرام.");
-        } else {
+        const energyIncreaseAmount = 1; 
             document.getElementById('username').textContent = usernameFromUrl || "أنت الأفضل";
             points = parseInt(localStorage.getItem('points')) || 0;
             document.getElementById('points').textContent = points;
