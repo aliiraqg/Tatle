@@ -4,7 +4,7 @@ const maxEnergy = 500; // الحد الأقصى للطاقة
 const energyIncreaseInterval = 5 * 1000; // زيادة الطاقة كل 5 ثوانٍ
 const energyIncreaseAmount = 1; // كمية الطاقة التي تضاف كل 5 ثوانٍ
 
-// استرجاع userId من URL الخاص بتطبيق Telegram Web App أو من Local Storage
+// استرجاع userId من URL الخاص بالويب تليجرام أو من التخزين المحلي
 const urlParams = new URLSearchParams(window.location.search);
 const userIdFromUrl = urlParams.get('userId');
 const usernameFromUrl = urlParams.get('username');
@@ -12,45 +12,32 @@ const usernameFromUrl = urlParams.get('username');
 // إذا كان userId موجود في URL، نخزنه في Local Storage
 if (userIdFromUrl) {
     localStorage.setItem('userId', userIdFromUrl);
-    if (usernameFromUrl) {
-        localStorage.setItem('username', usernameFromUrl);
-    }
 }
 
-// استرجاع userId واسم المستخدم من Local Storage
+// استرجاع userId من Local Storage
 const userId = localStorage.getItem('userId');
-const username = localStorage.getItem('username');
 
 // التحقق من أن userId موجود
 if (!userId) {
     alert("لم يتم العثور على معرف المستخدم. تأكد من فتح التطبيق عبر تليجرام.");
 } else {
     // تعيين اسم المستخدم في العنصر
-    document.getElementById('username').textContent = username || "أنت الأفضل";
-
-    // جلب النقاط الحالية من الخادم
-    async function fetchPoints() {
-        try {
-            const response = await fetch(`http://localhost:3000/getUserPoints?userId=${userId}`);
-            const data = await response.json();
-            points = data.points || 0;  // استرجاع النقاط
-            document.getElementById('points').textContent = points;
-        } catch (error) {
-            console.error('خطأ في استرجاع النقاط:', error);
-        }
-    }
-
-    fetchPoints();
+    document.getElementById('username').textContent = usernameFromUrl || "أنت الأفضل";
 
     // استرجاع آخر وقت كان المستخدم نشطًا فيه
+    const lastActivityTime = localStorage.getItem('lastActivityTime');
     const lastEnergyUpdateTime = localStorage.getItem('lastEnergyUpdateTime') || Date.now();
     const currentTime = Date.now();
 
-    // حساب الوقت المنقضي منذ آخر تحديث للطاقة
-    const timeDifference = currentTime - lastEnergyUpdateTime;
-    const energyToRecover = Math.floor(timeDifference / energyIncreaseInterval) * energyIncreaseAmount;
-    energy = Math.min(energy + energyToRecover, maxEnergy);
-    document.querySelector('.energy span').textContent = energy;
+    // حساب الوقت المنقضي منذ آخر نشاط
+    if (lastActivityTime) {
+        const timeDifference = currentTime - lastEnergyUpdateTime;
+        const energyToRecover = Math.floor(timeDifference / energyIncreaseInterval) * energyIncreaseAmount;
+
+        // استعادة الطاقة بناءً على الوقت المنقضي
+        energy = Math.min(energy + energyToRecover, maxEnergy);
+        document.querySelector('.energy span').textContent = energy;
+    }
 
     // تحديث النقاط عند النقر على الشخصية
     document.getElementById('clickable-character').addEventListener('click', async function () {
@@ -69,21 +56,17 @@ if (!userId) {
                     },
                     body: JSON.stringify({ userId: userId, points: points })
                 });
-
-                if (response.ok) {
-                    console.log('✔️ تم إرسال البيانات إلى الخادم بنجاح:', { userId: userId, points: points });
-                } else {
-                    console.error('❌ حدث خطأ في استجابة الخادم:', response.statusText);
-                }
+                const data = await response.json();
+                console.log('تم إرسال البيانات إلى الخادم:', { userId: userId, points: points });
             } catch (error) {
-                console.error('❌ حدث خطأ أثناء إرسال البيانات إلى الخادم:', error);
+                console.error('حدث خطأ أثناء إرسال البيانات إلى الخادم:', error);
             }
 
             // تحديث آخر وقت نشاط
             localStorage.setItem('lastActivityTime', Date.now());
-            localStorage.setItem('lastEnergyUpdateTime', Date.now());
+            localStorage.setItem('lastEnergyUpdateTime', Date.now()); // تحديث وقت آخر تحديث للطاقة
         } else {
-            showCustomAlert('لقد نفدت طاقتك! انتظر قليلًا لزيادة الطاقة.');
+            showCustomAlert('لقد نفذت طاقتك! انتظر قليلًا لزيادة الطاقة.');
         }
     });
 
@@ -92,9 +75,23 @@ if (!userId) {
         if (energy < maxEnergy) {
             energy++;
             document.querySelector('.energy span').textContent = energy;
-            localStorage.setItem('lastEnergyUpdateTime', Date.now());
+            localStorage.setItem('lastEnergyUpdateTime', Date.now()); // تحديث وقت آخر زيادة للطاقة
         }
     }, energyIncreaseInterval);
+
+    // عند تحميل الصفحة، تأكد من جلب النقاط الحالية
+    async function fetchPoints() {
+        try {
+            const response = await fetch(`http://localhost:3000/getUserPoints?userId=${userId}`);
+            const data = await response.json();
+            points = data.points || 0;  // استرجاع النقاط
+            document.getElementById('points').textContent = points;
+        } catch (error) {
+            console.error('خطأ في استرجاع النقاط:', error);
+        }
+    }
+
+    fetchPoints();
 }
 
 // دالة التنقل بين الصفحات
@@ -113,38 +110,6 @@ function showCustomAlert(message) {
     setTimeout(() => {
         document.body.removeChild(alertContainer);
     }, 3000);
-}
-
-// دالة لحذف المستخدم
-async function deleteUser() {
-    if (!userId) {
-        alert("لا يمكن حذف المستخدم لأنه لم يتم العثور على معرف المستخدم.");
-        return;
-    }
-
-    try {
-        const response = await fetch('http://localhost:3000/deleteUser', {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ userId: userId })
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            alert('تم حذف حسابك بنجاح. يمكنك الآن البدء من جديد!');
-            localStorage.clear(); // حذف جميع البيانات المخزنة
-            window.location.reload(); // إعادة تحميل الصفحة للبدء من جديد
-        } else {
-            console.error('❌ حدث خطأ أثناء حذف المستخدم:', data.message);
-            alert('حدث خطأ أثناء حذف حسابك. الرجاء المحاولة مرة أخرى.');
-        }
-    } catch (error) {
-        console.error('❌ حدث خطأ أثناء إرسال طلب الحذف:', error);
-        alert('حدث خطأ أثناء الاتصال بالخادم. حاول مرة أخرى لاحقاً.');
-    }
 }
 
 // منع تكبير الصفحة
