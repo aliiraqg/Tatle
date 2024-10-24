@@ -24,7 +24,7 @@
                 <div class="points-count" id="points">0</div>
             </div>
             <div class="earn-rate">
-                <span class="income"></span>  اربح/
+                <span class="income"></span> اربح/
                 <span class="clicks">1 النقرة</span>
             </div>
         </div>
@@ -52,62 +52,52 @@
         <div id="energy-alert" class="energy-alert" style="display: none;">
             لقد نفدت طاقتك! انتظر قليلًا لزيادة الطاقة.
         </div>
+
+        <button class="delete-button" onclick="deleteAllUserData()">مسح جميع البيانات</button>
     </div>
 
     <script>
-        let points = 0; // النقاط الافتراضية
-        let energy = 500; // الطاقة الافتراضية
-        const maxEnergy = 500; // الحد الأقصى للطاقة
-        const energyIncreaseInterval = 5 * 1000; // زيادة الطاقة كل 5 ثوانٍ
-        const energyIncreaseAmount = 1; // كمية الطاقة التي تضاف كل 5 ثوانٍ
+        let points = 0;
+        let energy = 500;
+        const maxEnergy = 500;
+        const energyIncreaseInterval = 5 * 1000;
+        const energyIncreaseAmount = 1;
 
-        // استرجاع userId من URL
         const urlParams = new URLSearchParams(window.location.search);
         const userIdFromUrl = urlParams.get('userId');
         const usernameFromUrl = urlParams.get('username');
 
-        // إذا كان userId موجود في URL، نخزنه في Local Storage
         if (userIdFromUrl) {
             localStorage.setItem('userId', userIdFromUrl);
         }
 
-        // استرجاع userId من Local Storage
         const userId = localStorage.getItem('userId');
 
         if (!userId) {
             alert("لم يتم العثور على معرف المستخدم. تأكد من فتح التطبيق عبر تليجرام.");
         } else {
             document.getElementById('username').textContent = usernameFromUrl || "أنت الأفضل";
-
-            // استرجاع النقاط الحالية من localStorage
             points = parseInt(localStorage.getItem('points')) || 0;
             document.getElementById('points').textContent = points;
 
-            // استرجاع آخر وقت كان المستخدم نشطًا فيه
             const lastEnergyUpdateTime = localStorage.getItem('lastEnergyUpdateTime') || Date.now();
             const currentTime = Date.now();
 
-            // حساب الوقت المنقضي منذ آخر نشاط
-            if (lastActivityTime) {
-                const timeDifference = currentTime - lastEnergyUpdateTime;
-                const energyToRecover = Math.floor(timeDifference / energyIncreaseInterval) * energyIncreaseAmount;
+            const timeDifference = currentTime - lastEnergyUpdateTime;
+            const energyToRecover = Math.floor(timeDifference / energyIncreaseInterval) * energyIncreaseAmount;
 
-                energy = Math.min(energy + energyToRecover, maxEnergy);
-                document.querySelector('.energy span').textContent = energy;
-            }
+            energy = Math.min(energy + energyToRecover, maxEnergy);
+            document.querySelector('.energy span').textContent = energy;
 
             document.getElementById('clickable-character').addEventListener('click', async function () {
                 if (energy > 0) {
-                    points += 5; // إضافة النقاط
-                    energy--; // تقليل الطاقة
+                    points += 5;
+                    energy--;
                     document.getElementById('points').textContent = points;
                     document.querySelector('.energy span').textContent = energy;
-
-                    // تحديث النقاط في localStorage
                     localStorage.setItem('points', points);
 
                     try {
-                        // إرسال النقاط إلى الخادم
                         const response = await fetch('http://localhost:3000/web_app_data', {
                             method: 'POST',
                             headers: {
@@ -121,7 +111,6 @@
                         console.error('حدث خطأ أثناء إرسال البيانات إلى الخادم:', error);
                     }
 
-                    // تحديث آخر وقت نشاط
                     localStorage.setItem('lastActivityTime', Date.now());
                     localStorage.setItem('lastEnergyUpdateTime', Date.now());
                 } else {
@@ -129,7 +118,6 @@
                 }
             });
 
-            // زيادة الطاقة كل 5 ثوانٍ
             setInterval(function () {
                 if (energy < maxEnergy) {
                     energy++;
@@ -155,7 +143,24 @@
             }, 3000);
         }
 
-        // منع تكبير الصفحة
+        async function deleteAllUserData() {
+            try {
+                const response = await fetch('http://localhost:3000/deleteAllUsers', {
+                    method: 'DELETE',
+                });
+
+                if (response.ok) {
+                    alert('تم مسح جميع بيانات المستخدمين بنجاح.');
+                    localStorage.clear();
+                    window.location.reload();
+                } else {
+                    console.error('❌ حدث خطأ أثناء مسح بيانات المستخدمين:', response.statusText);
+                }
+            } catch (error) {
+                console.error('❌ خطأ أثناء محاولة مسح البيانات:', error);
+            }
+        }
+
         document.addEventListener('gesturestart', function (e) {
             e.preventDefault();
         });
@@ -166,7 +171,6 @@
             e.preventDefault();
         });
 
-        // منع النسخ واللصق والقص
         document.addEventListener('copy', function (e) {
             e.preventDefault();
         });
