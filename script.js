@@ -21,10 +21,15 @@ if (userIdFromUrl) {
 const userId = localStorage.getItem('userId');
 const username = localStorage.getItem('username');
 
-// التحقق من أن userId موجود
-if (!userId) {
-    alert("لم يتم العثور على معرف المستخدم. تأكد من فتح التطبيق عبر تليجرام.");
+// التحقق من أن userId و username موجودان
+if (!userId || !username) {
+    // إذا لم يتم العثور على userId أو username، إظهار رسالة تنبيه
+    alert("لم يتم العثور على معرف المستخدم أو اسم المستخدم. تأكد من فتح التطبيق عبر تليجرام.");
 } else {
+    // إذا تم العثور على userId و username، تعيين اسم المستخدم في العنصر
+    document.getElementById('username').textContent = username || "أنت الأفضل";
+}
+
     // تعيين اسم المستخدم في العنصر
     document.getElementById('username').textContent = username || "أنت الأفضل";
 
