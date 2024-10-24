@@ -1,165 +1,224 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mine2Mine Loading</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-            background-color: #1d1d1d;
-            color: white;
-            text-align: center;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        /* العنوان في الأعلى */
-        .header-text {
-            position: absolute;
-            top: 20px;
-            font-size: 2em;
-            font-weight: bold;
-            color: #ff9800;
-            animation: slideDown 2s ease-in-out, fadeIn 2s ease-in-out;
-        }
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #0d0d2b;
+    color: white;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
 
-        @keyframes slideDown {
-            0% {
-                transform: translateY(-100px);
-            }
-            100% {
-                transform: translateY(0);
-            }
-        }
+.container {
+    max-width: 100%;
+    padding: 20px;
+    background-color: #12122b;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
 
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #1e1e30;
+    border-radius: 10px;
+    width: 100%;
+}
 
-        /* صورة في المنتصف */
-        .center-image {
-            width: 200px;
-            height: auto;
-            margin: 20px 0;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-        }
+.profile {
+    display: flex;
+    align-items: center;
+}
 
-        /* النص الخاص بالتحميل */
-        .loading-container {
-            position: absolute;
-            bottom: 20px;
-            text-align: center;
-        }
+.profile-pic {
+    width: 60px; /* تكبير حجم الصورة */
+    height: 60px; /* تكبير حجم الصورة */
+    border-radius: 50%;
+}
 
-        .loading-text {
-            font-size: 1.5em;
-            color: #ff9800;
-        }
+.username-info {
+    margin-left: 10px;
+    text-align: left;
+}
 
-        .loading-text span {
-            opacity: 0;
-            animation: blink 1.5s infinite;
-        }
+.username {
+    font-size: 18px;
+    font-weight: bold;
+}
 
-        .dot1 {
-            animation-delay: 0s;
-        }
+.level {
+    font-size: 12px;
+    color: #aaa;
+}
 
-        .dot2 {
-            animation-delay: 0.5s;
-        }
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #f0ad4e;
+    text-align: center;
+}
 
-        .dot3 {
-            animation-delay: 1s;
-        }
+.stats {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+}
 
-        @keyframes blink {
-            0% {
-                opacity: 0;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-            }
-        }
+.token-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-    </style>
-</head>
-<body>
+.token-icon {
+    width: 40px; /* تكبير حجم الأيقونة */
+    margin-right: 10px;
+}
 
-    <!-- النص في الأعلى -->
-    <div class="header-text">عدن وكسب</div>
+.points-count {
+    font-size: 48px;
+    font-weight: bold;
+    color: gold;
+}
 
-    <!-- الصورة في المنتصف -->
-    <img src="https://d.top4top.io/p_3214abejj0.png" alt="Mine2Mine Logo" class="center-image">
+.earn-rate {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #f0ad4e;
+}
 
-    <!-- النص التحميلي في الأسفل -->
-    <div class="loading-container">
-        <div class="loading-text">
-            Loading<span class="dot1">.</span><span class="dot2">.</span><span class="dot3">.</span>
-        </div>
-    </div>
+.character {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+}
 
-    <!-- إضافة زر لحفظ بيانات المستخدم -->
-    <button onclick="saveUserData()" style="margin-top: 20px;">حفظ بيانات المستخدم</button>
+.character-img {
+    width: 290px; /* تكبير الصورة */
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
 
-    <script>
-        // كود جافاسكريبت لإعادة التوجيه بعد 10 ثوانٍ
-        setTimeout(function(){
-            window.location.href = "اول.html"; // ضع هنا رابط الصفحة التالية
-        }, 10000);
+.character-img:active {
+    transform: scale(1.1);
+    outline: none;
+}
 
-        // كود جافاسكريبت لإرسال بيانات المستخدم إلى البوابة الخلفية
-        function saveUserData() {
-            // بيانات المستخدم (تحتاج لتعديلها حسب ما لديك)
-            const userData = {
-                id: '12345',
-                first_name: 'Ali',
-                last_name: 'Fakarr',
-                username: 'alifakarr',
-                points: 100,
-                level: 2,
-                tasks: ['مهمة 1', 'مهمة 2']
-            };
+.task-section {
+    margin-top: 20px;
+    width: 100%;
+}
 
-            // رابط API الخاص بالبوابة الخلفية
-            fetch('https://hlfe-a.vercel.app/api/save-user-data', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(userData)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('تم حفظ البيانات بنجاح:', data);
-                alert('تم حفظ البيانات بنجاح');
-            })
-            .catch(error => {
-                console.error('حدث خطأ أثناء حفظ البيانات:', error);
-                alert('حدث خطأ أثناء حفظ البيانات');
-            });
-        }
-    </script>
+.energy {
+    color: #f0ad4e;
+    margin-bottom: 10px;
+}
 
-</body>
-</html>
+.tasks {
+    margin-top: 10px;
+}
+
+.task-button {
+    background-color: #1e1e30;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+}
+
+.task-button:hover {
+    background-color: #f0ad4e;
+}
+
+/* وضع الأقسام والمهام في الأسفل */
+.navigation {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 10px; /* وضع الأقسام في الأسفل */
+}
+
+.nav-button {
+    background-color: #1e1e30;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    flex-grow: 1;
+    margin: 0 5px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.nav-button:hover {
+    background-color: #f0ad4e;
+}
+
+@media (max-width: 768px) {
+    .character-img {
+        width: 200px;
+    }
+
+    .points-count {
+        font-size: 36px;
+    }
+
+    .task-button {
+        padding: 8px;
+    }
+
+    .nav-button {
+        padding: 8px 10px;
+    }
+}
+
+html, body {
+    touch-action: manipulation;
+    overflow: hidden;
+}
+
+/* منع تحديد النص */
+body {
+    user-select: none; /* هذا الخاصية تمنع تحديد النص */
+    -webkit-user-select: none; /* لمتصفحات Webkit */
+    -moz-user-select: none; /* لمتصفحات Firefox */
+    -ms-user-select: none; /* لمتصفح Internet Explorer */
+}
+
+
+
+.custom-alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    z-index: 1000;
+    text-align: center;
+}
