@@ -18,7 +18,7 @@ if (!userId) {
     alert("لم يتم العثور على معرف المستخدم. تأكد من فتح التطبيق عبر تليجرام.");
 } else {
     // تعيين اسم المستخدم في العنصر
-    document.getElementById('username').textContent = usernameFromUrl || "  انت الافضل"; // عرض اسم المستخدم
+    document.getElementById('username').textContent = usernameFromUrl || "اسم المستخدم الافتراضي"; // عرض اسم المستخدم
 
     // تحديث النقاط عند النقر على الشخصية
     document.getElementById('clickable-character').addEventListener('click', async function() {
@@ -61,28 +61,3 @@ if (!userId) {
 function navigateTo(page) {
     window.location.href = page;
 }
-
-document.addEventListener('gesturestart', function (e) {
-    e.preventDefault();
-});
-document.addEventListener('gesturechange', function (e) {
-    e.preventDefault();
-});
-document.addEventListener('gestureend', function (e) {
-    e.preventDefault();
-});
-
-
-
-// منع النسخ واللصق والقص
-document.addEventListener('copy', function(e) {
-    e.preventDefault(); // منع النسخ
-});
-
-document.addEventListener('cut', function(e) {
-    e.preventDefault(); // منع القص
-});
-
-document.addEventListener('paste', function(e) {
-    e.preventDefault(); // منع اللصق
-});
